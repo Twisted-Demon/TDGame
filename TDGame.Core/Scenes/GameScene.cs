@@ -16,16 +16,18 @@ public class GameScene : Scene<GameScene>
         AmbientLight.Intensity = 1.0f;
         AmbientLight.Color = Color.White;
 
-        var ent = CreateEntity("entity");
-
-        var rect = ent.AttachComponent<RectDrawer>();
+        var ent = CreateEntity(
+            "entity",
+            createAt: new Vector3(640f, 360f, 0f)
+        );
         
         MainCamera.PixelsPerUnit = 1;
         MainCamera.SetTargetVerticalResolution(720);
         MainCamera.ForcePosition(new Vector3(640f , 360f, 0f));
 
+        var rect = ent.AttachComponent<RectDrawer>();
         rect.Width = 128;
         rect.Height = 128;
-        rect.Color = Color.White;
+        rect.Color = Color.Magenta;
     }
 }

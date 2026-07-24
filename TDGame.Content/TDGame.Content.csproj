@@ -19,4 +19,11 @@
     <PackageReference Include="MonoGame.Tool.FFmpeg" Version="7.0.0.*" />
     <PackageReference Include="MonoGame.Tool.FFprobe" Version="7.0.0.*" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Assets\Effects\ColorCorrection.fx" />
+    <ClCompile Include="Assets\Effects\ForwardDiffuse.fx" />
+    <ClCompile Include="Assets\Effects\ForwardLighting2D.fx" />
+    <ClCompile Include="Assets\Effects\PointLight2D.fx" />
+    <ClCompile Include="Assets\Effects\Tint.fx" />
+  </ItemGroup>
 </Project>
