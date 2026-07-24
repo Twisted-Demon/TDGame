@@ -1,0 +1,3 @@
+[submodule "DreambitEngine"]
+	path = DreambitEngine
+	url = https://github.com/Twisted-Demon/DreambitEngine.git

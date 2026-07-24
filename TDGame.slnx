@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="DreambitEngine/DreambitEngine/DreambitEngine.csproj" />
+  <Project Path="DreambitEngine/LDtkMonogame/LDtk/LDtk.csproj" />
+  <Project Path="TDGame.Content/TDGame.Content.csproj" />
+  <Project Path="TDGame.Core/TDGame.Core.csproj" />
+  <Project Path="TDGame.VK/TDGame.VK.csproj" />
+</Solution>

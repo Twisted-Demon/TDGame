@@ -1,0 +1,26 @@
+<Project>
+  <Target Name="BuildContent" BeforeTargets="BeforeCompile">
+    <PropertyGroup>
+      <ContentBuilderProject>$(MSBuildThisFileDirectory)TDGame.Content.csproj</ContentBuilderProject>
+
+      <ContentBuilderDll>$(MSBuildThisFileDirectory)bin\$(Configuration)\TDGame.Content.dll</ContentBuilderDll>
+
+      <ContentSource>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\Assets'))</ContentSource>
+
+      <ContentOutput>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\Build\$(Configuration)'))</ContentOutput>
+
+      <ContentIntermediate>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\obj\$(Configuration)\Content'))</ContentIntermediate>
+    </PropertyGroup>
+
+    <MSBuild
+            Projects="$(ContentBuilderProject)"
+            Targets="Build"
+            Properties="Configuration=$(Configuration)"
+            RemoveProperties="TargetFramework;RuntimeIdentifier;RuntimeIdentifiers;OutputPath;BaseOutputPath" />
+
+    <Exec
+            Command="dotnet &quot;$(ContentBuilderDll)&quot; build -p &quot;$(MonoGamePlatform)&quot; -s &quot;$(ContentSource)&quot; -o &quot;$(ContentOutput)&quot; -i &quot;$(ContentIntermediate)&quot;"
+            CustomErrorRegularExpression="\[E\] .+"
+            CustomWarningRegularExpression="\[W\] .+" />
+  </Target>
+</Project>
