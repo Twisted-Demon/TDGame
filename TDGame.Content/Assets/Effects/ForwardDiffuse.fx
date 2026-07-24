@@ -1,22 +1,21 @@
-struct PS_INPUT
-{
-    float4 Position : SV_Position;
-    float4 Color    : COLOR0;
-    float2 TexCoord : TEXCOORD0;
-};
+#include "DefaultVS.fxh"
 
 Texture2D<float4> TextureSampler : register(t0);
 SamplerState TextureSamplerState : register(s0);
 
 float4 MainPS(PS_INPUT input) : SV_Target0
 {
-    return TextureSampler.Sample(TextureSamplerState, input.TexCoord) * input.Color;
+    return TextureSampler.Sample(
+        TextureSamplerState,
+        input.TexCoord
+    ) * input.Color;
 }
 
 technique MainTechnique
 {
     pass P0
     {
-        PixelShader = compile ps_6_0 MainPS();
+        VertexShader = compile vs_6_0 DefaultVS();
+        PixelShader  = compile ps_6_0 MainPS();
     }
 }
