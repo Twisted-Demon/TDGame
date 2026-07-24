@@ -18,12 +18,14 @@ public class GameScene : Scene<GameScene>
 
         var ent = CreateEntity("entity");
 
-        var sprite = ent.AttachComponent<SpriteDrawer>();
+        var rect = ent.AttachComponent<RectDrawer>();
         
         MainCamera.PixelsPerUnit = 1;
         MainCamera.SetTargetVerticalResolution(720);
         MainCamera.ForcePosition(new Vector3(640f , 360f, 0f));
 
-        sprite.Sprite = Sprite.Create("Textures/grid");
+        rect.Width = 128;
+        rect.Height = 128;
+        rect.Color = Color.White;
     }
 }
