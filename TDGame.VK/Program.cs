@@ -1,12 +1,14 @@
 ﻿using Dreambit;
-using TDGame.Core.Scenes;
+using TDGame.Core;
 
-using var game = new Core(title: "TDGame.VK");
+using var game = new Core(title: "TDGame.VK", width: 1280, height: 720);
 
 Core.Level = LogLevel.Trace;
 
 var scene = new GameScene();
 
 Scene.SetNextScene(scene);
+
+Window.SetAllowUserResizing(true);
 
 game.Run();

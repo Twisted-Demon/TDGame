@@ -25,5 +25,6 @@
     <ClCompile Include="Assets\Effects\ForwardLighting2D.fx" />
     <ClCompile Include="Assets\Effects\PointLight2D.fx" />
     <ClCompile Include="Assets\Effects\Tint.fx" />
+    <ClCompile Include="Assets\Effects\WorldRing.fx" />
   </ItemGroup>
 </Project>

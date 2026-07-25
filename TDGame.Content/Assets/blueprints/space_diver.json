@@ -1,0 +1,19 @@
+{
+    "name": "space diver",
+    "tags": ["enemy"],
+    "position": [0.0, 0.0, 0.0],
+    "rotation": [0.0, 0.0, 0.0],
+    "scale": [1.0, 1.0, 1.0],
+    "components": [
+        {
+            "type": "TDGame.Core.SpaceEnemyComponent, TDGame.Core"
+        },
+        {
+            "type": "Dreambit.ECS.SpriteAnimator, Dreambit",
+            "properties": {
+                "AnimationPath": "animations/enemies/space_diver/idle",
+                "PlayOnStart": true
+            }
+        }
+    ]
+}
