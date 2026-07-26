@@ -38,6 +38,10 @@ public class SpaceDiverComponent : Component
         var dirToPlanetNormalized = Vector3.Normalize(dirToPlanet);
 
         Mover.Velocity = (dirToPlanetNormalized * 64f) * Time.DeltaTime;
+        
+        var angle = Mathf.AngleBetweenVectors(Transform.WorldPosToVec2, planetPos.ToVector2());
+
+        Transform.Rotation.Z = angle;
 
         if (Vector3.Distance(planetPos, Transform.WorldPosition) <= 0.5f)
             Entity.Destroy(Entity);

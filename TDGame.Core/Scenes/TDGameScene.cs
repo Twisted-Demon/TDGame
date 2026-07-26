@@ -1,4 +1,5 @@
-﻿using Dreambit;
+﻿using System.Globalization;
+using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,7 +42,6 @@ public class TDGameScene : Scene<TDGameScene>
 
         drawer.Sprite = Sprite.Create("Textures/backgrounds/default_background");
         drawer.DrawLayer = -900;
-        drawer.Sprite.PixelsPerUnit = 64;
     }
 
     protected override void OnUpdate()
@@ -55,5 +55,7 @@ public class TDGameScene : Scene<TDGameScene>
 
             Logger.Info(spawnPosition.ToString());
         }
+        
+        Logger.Info(Time.TimeSinceSceneLoaded.ToString(CultureInfo.InvariantCulture));
     }
 }
