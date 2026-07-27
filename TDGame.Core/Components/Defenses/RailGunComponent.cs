@@ -2,6 +2,8 @@
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
+using TDGame.Core.Managers;
+using TDGame.Core.Projectiles;
 
 namespace TDGame.Core;
 
@@ -9,7 +11,7 @@ public class RailGunComponent : SpaceDefenseComponent
 {
     public new TDGameScene Scene { get; set; }
     public new ILogger Logger  = new Logger<SpaceDefenseComponent>();
-    public Vector2 WeaponOriginOffset { get; set; }
+    public Entity Muzzle { get; set; }
 
     public override void OnCreated()
     {
@@ -17,5 +19,21 @@ public class RailGunComponent : SpaceDefenseComponent
         
         if(Scene == null)
             throw new ArgumentNullException(nameof(Scene));
+    }
+
+    protected override void OnAttack()
+    {
+        Target = TargetingBehavior.SelectTarget(this);
+
+        if (Target is null) return;
+        
+        FaceToTarget();
+        
+        var start = Muzzle.Transform.WorldPosition;
+        var end = Target.Transform.WorldPosition;
+
+        HitScanLine.Create(start, end, Color.White, 0.5f);
+        
+        EnemyManager.Instance.DestroyEnemy(Target);
     }
 }

@@ -24,7 +24,8 @@
     "children": [
         {
             "name": "Muzzle",
-            "guid": "a54e7f70-08f7-44cc-8526-cdb84c5d1d3a"
+            "guid": "a54e7f70-08f7-44cc-8526-cdb84c5d1d3a",
+            "position": [0.479, 0.093, 0]
         }
     ]
 }

@@ -65,20 +65,16 @@ public class SpaceDefenseComponent : Component<SpaceDefenseComponent>
         {
             _attackTimer = AttacksPerSecond;
 
-            Target = TargetingBehavior.SelectTarget(this);
-
-            if (Target != null)
-                OnAttack();
+            OnAttack();
         }
     }
 
     protected virtual void OnAttack()
     {
-        FaceToTarget();
-        EnemyManager.Instance.DestroyEnemy(Target);
+
     }
 
-    private void FaceToTarget()
+    protected void FaceToTarget()
     {
         var pos = Transform.WorldPosition.ToVector2();
         var enemyPos = Target.Transform.WorldPosition.ToVector2();
