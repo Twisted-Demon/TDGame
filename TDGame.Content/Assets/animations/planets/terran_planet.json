@@ -1,8 +1,0 @@
-{
-    "index_start": 0,
-    "index_end": 59,
-    "pivot": "32,32",
-    "frame_rate": 4,
-    "sprite_sheet_path": "SpriteSheets/Planets/terran",
-    "one_shot": false
-}

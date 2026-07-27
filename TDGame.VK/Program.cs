@@ -9,6 +9,4 @@ var scene = new TDGameScene();
 
 Scene.SetNextScene(scene);
 
-Window.SetAllowUserResizing(true);
-
 game.Run();

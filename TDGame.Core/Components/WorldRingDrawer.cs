@@ -8,7 +8,7 @@ namespace TDGame.Core;
 
 public class WorldRingDrawer : DrawableComponent
 {
-    public override Rectangle Bounds => GetBounds();
+    public override RectangleF Bounds => GetBounds();
     
     private static readonly Vector2 PixelOrigin = new Vector2(0.5f, 0.5f);
 
@@ -129,18 +129,18 @@ public class WorldRingDrawer : DrawableComponent
             );
     }
 
-    private Rectangle GetBounds()
+    private RectangleF GetBounds()
     {
         var pivotToUse = Transform.WorldPosToVec2;
 
         var pivotOffset = PivotHelper.GetRelativePivot(PivotType.Center);
         pivotToUse -= new Vector2(pivotOffset.X * Radius, pivotOffset.Y * Radius);
         
-        var bounds = new Rectangle(
-            (int)pivotToUse.X,
-            (int)pivotToUse.Y,
-            (int)Radius,
-            (int)Radius);
+        var bounds = new RectangleF(
+            pivotToUse.X,
+            pivotToUse.Y,
+            Radius,
+            Radius);
 
         return bounds;
     }

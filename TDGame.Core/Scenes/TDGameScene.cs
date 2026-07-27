@@ -3,6 +3,8 @@ using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
@@ -12,50 +14,77 @@ public class TDGameScene : Scene<TDGameScene>
     
     protected override void OnInitialize()
     {
+        Window.SetAllowUserResizing(true);
+        
         SetUpCameraAndLighting();
-        SetUpPlanet();
-        SetUpBackground();
+        SetUpManagers();
     }
     
     private void SetUpCameraAndLighting()
     {
         AmbientLight.Intensity = 1.0f;
         AmbientLight.Color = Color.White;
+        BackgroundColor = new Color(0, 4, 16);
         
-        MainCamera.SetTargetVerticalResolution(720);
-        MainCamera.PixelsPerUnit = 64;
+        MainCamera.SetTargetVerticalResolution(864);
+        MainCamera.PixelsPerUnit = 96;
+
+        Window.WindowResized += (sender, args) =>
+        {
+            //MainCamera.SetTargetVerticalResolution(args.Height);
+        };
     }
 
-    private void SetUpPlanet()
+    private void SetUpManagers()
     {
-        var terranPlanetBp = Resources.LoadAsset<EntityBlueprint>("blueprints/planets/terran_planet");
+        var enemyManager = CreateEntity("enemy_manager");
+        enemyManager.AttachComponent<EnemyManager>();
         
-        PlanetEntity = CreateEntity(terranPlanetBp, createAt: new Vector3(20.0f * 0.5f, 11.25f * 0.5f, 0.0f));
-
-        MainCamera.ForcePosition(PlanetEntity.Transform.WorldPosition);
-    }
-
-    private void SetUpBackground()
-    {
-        var background = CreateEntity("background");
-        var drawer = background.AttachComponent<SpriteDrawer>().WithPivot(PivotType.TopLeft);
-
-        drawer.Sprite = Sprite.Create("Textures/backgrounds/default_background");
-        drawer.DrawLayer = -900;
+        var spaceDefenseManager = CreateEntity("space_defense_manager");
+        spaceDefenseManager.AttachComponent<SpaceDefenseManager>();
+        
+        var playerManager = CreateEntity("player_manager");
+        playerManager.AttachComponent<PlayerManager>();
     }
 
     protected override void OnUpdate()
     {
         if (Input.IsMousePressed(MouseButton.Right))
         {
-            var diverBp = Resources.LoadAsset<EntityBlueprint>("blueprints/enemies/space_diver");
-
             var spawnPosition = MainCamera.ScreenToWorld(Input.GetMousePosition());
-            CreateEntity(diverBp, createAt: spawnPosition.ToVector3());
 
-            Logger.Info(spawnPosition.ToString());
+            EnemyManager.Instance.SpawnSpaceDiver(spawnPosition.ToVector3());
+        }
+
+        if (Input.IsMousePressed(MouseButton.Left))
+        {
+            var spawnPosition = MainCamera.ScreenToWorld(Input.GetMousePosition());
+            var planetPosition = SpaceDefenseManager.Instance.PlanetEntity.Transform.WorldPosToVec2;
+
+            float distanceFromPlanet = 1.5f;
+
+            var directionToSpawn = Vector2.Normalize(spawnPosition - planetPosition);
+            
+            var position = planetPosition + directionToSpawn * distanceFromPlanet;
+            
+            var railgunBp = Resources.LoadAsset<EntityBlueprint>("blueprints/railgun_bp");
+
+            CreateEntity(railgunBp, createAt: position.ToVector3());
+            
+            Logger.Info(position.ToString());
         }
         
-        Logger.Info(Time.TimeSinceSceneLoaded.ToString(CultureInfo.InvariantCulture));
+        if(Input.IsKeyPressed(Keys.F7))
+            DebugMode = !DebugMode;
+
+        if (Input.GetScrollDelta() > 0)
+            MainCamera.Zoom += 0.1f;
+        if (Input.GetScrollDelta() < 0)
+        {
+            MainCamera.Zoom -= 0.1f;
+            
+        }
+        
+        MainCamera.Zoom = Mathf.Clamp(MainCamera.Zoom, 0.001f, 2.0f);
     }
 }

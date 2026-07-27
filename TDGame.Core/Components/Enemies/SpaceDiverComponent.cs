@@ -2,14 +2,18 @@
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
+using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
-[Require(typeof(Mover))]
+[Require(typeof(Mover), typeof(SpaceEnemyComponent))]
 public class SpaceDiverComponent : Component
 {
     [FromRequired]
     public Mover Mover { get; set; }
+    
+    [FromRequired]
+    public SpaceEnemyComponent SpaceEnemyComponent { get; set; }
     
     public Entity Planet { get; set; }
     
@@ -22,7 +26,7 @@ public class SpaceDiverComponent : Component
         if(Scene == null)
             throw new ArgumentNullException(nameof(Scene));
         
-        Planet = Scene!.PlanetEntity;
+        Planet = SpaceDefenseManager.Instance.PlanetEntity;
     }
 
     public override void OnUpdate()
@@ -44,6 +48,8 @@ public class SpaceDiverComponent : Component
         Transform.Rotation.Z = angle;
 
         if (Vector3.Distance(planetPos, Transform.WorldPosition) <= 0.5f)
-            Entity.Destroy(Entity);
+        {
+            EnemyManager.Instance.DestroyEnemy(SpaceEnemyComponent);
+        }
     }
 }
