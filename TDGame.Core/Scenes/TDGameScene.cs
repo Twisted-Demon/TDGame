@@ -67,7 +67,7 @@ public class TDGameScene : Scene<TDGameScene>
             
             var position = planetPosition + directionToSpawn * distanceFromPlanet;
             
-            var railgunBp = Resources.LoadAsset<EntityBlueprint>("blueprints/railgun_bp");
+            var railgunBp = Resources.LoadAsset<EntityBlueprint>("blueprints/missile_launcher_bp");
 
             CreateEntity(railgunBp, createAt: position.ToVector3());
             
