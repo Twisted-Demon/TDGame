@@ -26,7 +26,9 @@ public class MissileLauncherComponent : SpaceDefenseComponent, ICanLog<MissileLa
         var projectile = Entity.Create(ProjectileBlueprint, createAt: Transform.Position)
             .GetComponent<HomingProjectile>();
 
-        projectile.Target = Target.Transform;
+        projectile.Target = Target.Entity;
+        projectile.Transform.Rotation2D = Transform.Rotation2D;
+        projectile.LifeTime = 10f;
     }
 
     private static bool IsInsideCone(

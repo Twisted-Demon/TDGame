@@ -76,12 +76,10 @@ public class SpaceDefenseComponent : Component
 
     protected void FaceToTarget()
     {
-        var pos = Transform.WorldPosition.ToVector2();
-        var enemyPos = Target.Transform.WorldPosition.ToVector2();
-
-        var angle = Mathf.AngleBetweenVectors(pos, enemyPos);
-
-        Transform.Rotation.Z = angle;
+        if(Target is null) return;
+        
+        var enemyPos = Target.Transform.WorldPosition2D;
+        Transform.LookAt2D(enemyPos);
     }
 
     public override void OnDebugDraw()

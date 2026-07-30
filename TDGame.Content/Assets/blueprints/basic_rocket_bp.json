@@ -5,7 +5,7 @@
         {
             "type": "TDGame.Core.HomingProjectile, TDGame.Core",
             "properties": {
-                "InitialVelocity": 1.25
+                "InitialVelocity": 1.75
             }
         },
         {

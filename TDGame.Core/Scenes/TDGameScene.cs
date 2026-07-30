@@ -49,29 +49,11 @@ public class TDGameScene : Scene<TDGameScene>
 
     protected override void OnUpdate()
     {
-        if (Input.IsMousePressed(MouseButton.Right))
+        if (Input.IsMouseHeld(MouseButton.Right))
         {
             var spawnPosition = MainCamera.ScreenToWorld(Input.GetMousePosition());
 
             EnemyManager.Instance.SpawnSpaceDiver(spawnPosition.ToVector3());
-        }
-
-        if (Input.IsMousePressed(MouseButton.Left))
-        {
-            var spawnPosition = MainCamera.ScreenToWorld(Input.GetMousePosition());
-            var planetPosition = SpaceDefenseManager.Instance.PlanetEntity.Transform.WorldPosToVec2;
-
-            float distanceFromPlanet = 1.5f;
-
-            var directionToSpawn = Vector2.Normalize(spawnPosition - planetPosition);
-            
-            var position = planetPosition + directionToSpawn * distanceFromPlanet;
-            
-            var railgunBp = Resources.LoadAsset<EntityBlueprint>("blueprints/missile_launcher_bp");
-
-            CreateEntity(railgunBp, createAt: position.ToVector3());
-            
-            Logger.Info(position.ToString());
         }
         
         if(Input.IsKeyPressed(Keys.F7))

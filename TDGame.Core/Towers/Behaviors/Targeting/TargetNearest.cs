@@ -7,7 +7,7 @@ namespace TDGame.Core;
 
 public class TargetNearest : ITargetingBehavior
 {
-    public SpaceEnemyComponent SelectTarget(SpaceDefenseComponent self, SpaceEnemyComponent currentTarget = null)
+    public SpaceEnemyComponent SelectTarget(SpaceDefenseComponent self)
     {
         var range = self.Range;
         var rangeSquared = range * range;
@@ -15,11 +15,18 @@ public class TargetNearest : ITargetingBehavior
         SpaceEnemyComponent nearest = null;
         var nearestDistanceSquared = float.MaxValue;
 
-        foreach (var enemy in EnemyManager.Instance.ActiveEnemies)
-        {
-            if (Entity.IsDestroyed(enemy.Entity))
-                continue;
+        if (!PhysicsSystem.Instance.CircleCastByTag(
+                self.Transform.WorldPosition2D,
+                range,
+                out var inRange,
+                ["enemy"])) return null;
 
+        foreach (var collider in inRange.Collisions)
+        {
+            var enemy = collider.Entity.GetComponent<SpaceEnemyComponent>();
+
+            if (enemy is null || Entity.IsDestroyed(enemy.Entity)) return null;
+            
             var defensePosition = self.Transform.WorldPosition;
             var enemyPosition = enemy.Transform.WorldPosition;
 

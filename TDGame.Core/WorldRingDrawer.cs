@@ -118,7 +118,7 @@ public class WorldRingDrawer : DrawableComponent
         
         Dreambit.Core.SpriteBatch.Draw(
                 texture: WhitePixel,
-                position: Transform.WorldPosToVec2,
+                position: Transform.WorldPosition2D,
                 sourceRectangle: null,
                 color: Color,
                 rotation: 0f,
@@ -131,7 +131,7 @@ public class WorldRingDrawer : DrawableComponent
 
     private RectangleF GetBounds()
     {
-        var pivotToUse = Transform.WorldPosToVec2;
+        var pivotToUse = Transform.WorldPosition2D;
 
         var pivotOffset = PivotHelper.GetRelativePivot(PivotType.Center);
         pivotToUse -= new Vector2(pivotOffset.X * Radius, pivotOffset.Y * Radius);

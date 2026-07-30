@@ -6,10 +6,8 @@
     "scale": [1.0, 1.0, 1.0],
     "components": [
         {
-            "type": "TDGame.Core.SpaceEnemyComponent, TDGame.Core"
-        },
-        {
-            "type": "TDGame.Core.SpaceDiverComponent, TDGame.Core"
+            "type": "TDGame.Core.SpaceDiverComponent, TDGame.Core",
+            "BaseVelocity": 1.5
         },
         {
             "type": "Dreambit.ECS.SpriteAnimator, Dreambit",
@@ -17,6 +15,17 @@
                 "AnimationPath": "animations/space_diver/still_anim",
                 "PlayOnStart": true
             }
-        }   
+        },
+        {
+            "type": "Dreambit.ECS.BoxCollider, Dreambit",
+            "properties": {
+                "Bounds": [
+                    [-0.083,    -0.083],
+                    [ 0.083,    -0.083],
+                    [ 0.083,     0.083],
+                    [-0.083,     0.083]
+                ]
+            }
+        }
     ]
 }

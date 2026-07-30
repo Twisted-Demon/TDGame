@@ -6,27 +6,29 @@ using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
-[Require(typeof(Mover), typeof(SpaceEnemyComponent))]
-public class SpaceDiverComponent : Component
+public class SpaceDiverComponent : SpaceEnemyComponent
 {
-    [FromRequired]
-    public Mover Mover { get; set; }
-    
-    [FromRequired]
-    public SpaceEnemyComponent SpaceEnemyComponent { get; set; }
-    
-    public Entity Planet { get; set; }
-    
-    public new TDGameScene Scene { get; set; }
+    private OrbitalDescentPath _path;
 
     public override void OnCreated()
     {
-        Scene = Dreambit.Core.Instance.CurrentScene as TDGameScene;
-        
-        if(Scene == null)
-            throw new ArgumentNullException(nameof(Scene));
-        
-        Planet = SpaceDefenseManager.Instance.PlanetEntity;
+        base.OnCreated();
+
+        var planetCenter = Planet.Transform.WorldPosition2D;
+        var spawnPosition = Transform.WorldPosition2D;
+
+        const float impactRadius = 0.5f;
+
+        const int orbitDirection = 1;
+
+        const float turns = 1.15f;
+
+        _path = new OrbitalDescentPath(
+            planetCenter,
+            spawnPosition,
+            impactRadius,
+            orbitDirection,
+            turns);
     }
 
     public override void OnUpdate()
@@ -36,20 +38,12 @@ public class SpaceDiverComponent : Component
 
     private void SeekToPlanet()
     {
-        var planetPos = Planet.Transform.WorldPosition;
-
-        var dirToPlanet = (planetPos - Transform.WorldPosition);
-        var dirToPlanetNormalized = Vector3.Normalize(dirToPlanet);
-
-        Mover.Velocity = dirToPlanetNormalized * 1.25f;
+        _path.Update(1.65f);
         
-        var angle = Mathf.AngleBetweenVectors(Transform.WorldPosToVec2, planetPos.ToVector2());
+        Transform.Position2D = _path.Position;
+        Transform.Rotation2D = +_path.Forward.Angle();
 
-        Transform.Rotation.Z = angle;
-
-        if (Vector3.Distance(planetPos, Transform.WorldPosition) <= 0.5f)
-        {
-            EnemyManager.Instance.DestroyEnemy(SpaceEnemyComponent);
-        }
+        if (_path.IsComplete)
+            EnemyManager.Instance.DestroyEnemy(this);
     }
 }
