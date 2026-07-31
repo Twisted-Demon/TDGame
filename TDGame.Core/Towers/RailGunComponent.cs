@@ -23,7 +23,7 @@ public class RailGunComponent : SpaceDefenseComponent, ICanLog<RailGunComponent>
 
     protected override void OnAttack()
     {
-        Target = TargetingBehavior.SelectTarget(this);
+        Target = TargetingBehavior.SelectTarget(Transform, Range, ["enemy"]);
 
         if (Target is null) return;
         

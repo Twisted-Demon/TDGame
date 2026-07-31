@@ -17,7 +17,7 @@ public class MissileLauncherComponent : SpaceDefenseComponent, ICanLog<MissileLa
 
     protected override void OnAttack()
     {
-        Target = TargetingBehavior.SelectTarget(this);
+        Target = TargetingBehavior.SelectTarget(Transform, Range, ["enemy"]);
 
         if (Target is null) return;
         

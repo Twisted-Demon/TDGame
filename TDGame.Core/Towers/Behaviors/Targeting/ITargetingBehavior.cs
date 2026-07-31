@@ -1,6 +1,9 @@
-﻿namespace TDGame.Core;
+﻿using System.Collections.Generic;
+using Dreambit.ECS;
+
+namespace TDGame.Core;
 
 public interface ITargetingBehavior
 {
-    SpaceEnemyComponent SelectTarget(SpaceDefenseComponent self);
+    SpaceEnemyComponent SelectTarget(Transform self, float range, IReadOnlyList<string> tags);
 }

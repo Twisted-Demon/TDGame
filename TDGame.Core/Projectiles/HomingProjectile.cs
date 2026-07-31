@@ -12,18 +12,10 @@ public class HomingProjectile : Projectile
 
     public float TurnSpeed { get; set; } = 120f;
 
+    public ITargetingBehavior RetargetBehavior { get; set; } = new TargetNearest();
+
     protected override void Seek()
     {
-        if (Entity.IsDestroyed(Target))
-        {
-            if (PhysicsSystem.Instance.CircleCastByTag(Transform.WorldPosition2D, 2f, out var result, ["enemy"]))
-            {
-                var targeting = new TargetNearest();
-                
-                
-            }
-        }
-        
         if (!Entity.IsDestroyed(Target))
         {
             var turnSpeedRad = Mathf.Radians(TurnSpeed);

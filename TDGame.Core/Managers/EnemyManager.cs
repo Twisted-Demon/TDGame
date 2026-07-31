@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
@@ -10,6 +11,12 @@ public class EnemyManager : SingletonComponent<EnemyManager>
     public List<SpaceEnemyComponent> ActiveEnemies { get; set; } = [];
 
     private EntityBlueprint _spaceDiverBp;
+
+    private float minRadiusSpawn = 30.0f;
+    private float maxRadiusSpawn = 33.0f;
+
+    private float minAngleDegreesSpawn = Mathf.Epsilon;
+    private float maxAngleDegreesSpawn = Mathf.Epsilon;
 
     public override void OnCreated()
     {
@@ -24,6 +31,22 @@ public class EnemyManager : SingletonComponent<EnemyManager>
         ActiveEnemies.Add(enemy);
         
         Logger.Info($"Space Diver created: {spawnPosition}");
+    }
+    
+    private float _spawnTimer;
+    private float _spawnInterval = 0.25f;
+
+    public override void OnUpdate()
+    {
+        _spawnTimer -= Time.DeltaTime;
+
+        if (_spawnTimer > 0f)
+            return;
+
+        _spawnTimer = _spawnInterval;
+
+        Vector2 spawnPosition = GenerateRandomSpawnPoint();
+        SpawnSpaceDiver(spawnPosition.ToVector3());
     }
 
     public void DestroyEnemy(SpaceEnemyComponent enemyToDestroy)
@@ -54,5 +77,34 @@ public class EnemyManager : SingletonComponent<EnemyManager>
         }
 
         return closestEnemy;
+    }
+
+    private Vector2 GenerateRandomSpawnPoint()
+    {
+        float radius = Random.Shared.NextFloat(
+            minRadiusSpawn,
+            maxRadiusSpawn
+        );
+
+        float angleDegrees = Random.Shared.NextFloat(
+            minAngleDegreesSpawn,
+            maxAngleDegreesSpawn
+        );
+
+        float angleRadians = Mathf.Radians(angleDegrees);
+
+        return PolarToPosition(
+            Transform.WorldPosition2D,
+            radius,
+            angleRadians
+        );
+    }
+
+    private Vector2 PolarToPosition(Vector2 center, float radius, float angleRadians)
+    {
+        float x = Mathf.Cos(angleRadians) * radius;
+        float y = Mathf.Sin(angleRadians) * radius;
+
+        return center + new Vector2(x, y);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Dreambit;
+﻿using System.Collections.Generic;
+using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
 using TDGame.Core.Managers;
@@ -7,27 +8,26 @@ namespace TDGame.Core;
 
 public class TargetNearest : ITargetingBehavior
 {
-    public SpaceEnemyComponent SelectTarget(SpaceDefenseComponent self)
+    public SpaceEnemyComponent SelectTarget(Transform self, float range, IReadOnlyList<string> tags)
     {
-        var range = self.Range;
         var rangeSquared = range * range;
 
         SpaceEnemyComponent nearest = null;
         var nearestDistanceSquared = float.MaxValue;
 
         if (!PhysicsSystem.Instance.CircleCastByTag(
-                self.Transform.WorldPosition2D,
+                self.WorldPosition2D,
                 range,
                 out var inRange,
-                ["enemy"])) return null;
+                tags)) return null;
 
         foreach (var collider in inRange.Collisions)
         {
             var enemy = collider.Entity.GetComponent<SpaceEnemyComponent>();
 
-            if (enemy is null || Entity.IsDestroyed(enemy.Entity)) return null;
+            if (enemy is null || Entity.IsDestroyed(enemy.Entity)) continue;
             
-            var defensePosition = self.Transform.WorldPosition;
+            var defensePosition = self.WorldPosition;
             var enemyPosition = enemy.Transform.WorldPosition;
 
             var distanceSquared = Vector3.DistanceSquared(defensePosition, enemyPosition);

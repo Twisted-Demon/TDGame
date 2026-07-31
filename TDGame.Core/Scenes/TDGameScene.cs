@@ -49,22 +49,20 @@ public class TDGameScene : Scene<TDGameScene>
 
     protected override void OnUpdate()
     {
-        if (Input.IsMouseHeld(MouseButton.Right))
-        {
-            var spawnPosition = MainCamera.ScreenToWorld(Input.GetMousePosition());
-
-            EnemyManager.Instance.SpawnSpaceDiver(spawnPosition.ToVector3());
-        }
-        
         if(Input.IsKeyPressed(Keys.F7))
             DebugMode = !DebugMode;
 
         if (Input.GetScrollDelta() > 0)
-            MainCamera.Zoom += 0.1f;
+            MainCamera.Zoom += 0.05f;
         if (Input.GetScrollDelta() < 0)
         {
-            MainCamera.Zoom -= 0.1f;
+            MainCamera.Zoom -= 0.05f;
             
+        }
+
+        if (Input.IsKeyPressed(Keys.Space))
+        {
+            Scene.SetNextScene<TDGameScene>();
         }
         
         MainCamera.Zoom = Mathf.Clamp(MainCamera.Zoom, 0.001f, 2.0f);

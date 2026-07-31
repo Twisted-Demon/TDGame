@@ -19,9 +19,9 @@ public class SpaceDiverComponent : SpaceEnemyComponent
 
         const float impactRadius = 0.5f;
 
-        const int orbitDirection = 1;
+        const int orbitDirection = -1;
 
-        const float turns = 1.15f;
+        const float turns = 3;
 
         _path = new OrbitalDescentPath(
             planetCenter,
