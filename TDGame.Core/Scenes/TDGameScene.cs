@@ -45,6 +45,7 @@ public class TDGameScene : Scene<TDGameScene>
         
         var playerManager = CreateEntity("player_manager");
         playerManager.AttachComponent<PlayerManager>();
+        
     }
 
     protected override void OnUpdate()
@@ -58,6 +59,15 @@ public class TDGameScene : Scene<TDGameScene>
         {
             MainCamera.Zoom -= 0.05f;
             
+        }
+
+        if (Input.IsKeyHeld(Keys.T))
+        {
+            Time.TimeScale = 2.5f;
+        }
+        else
+        {
+            Time.TimeScale = 1f;
         }
 
         if (Input.IsKeyPressed(Keys.Space))

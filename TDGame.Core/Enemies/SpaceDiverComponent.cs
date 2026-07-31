@@ -21,7 +21,7 @@ public class SpaceDiverComponent : SpaceEnemyComponent
 
         const int orbitDirection = -1;
 
-        const float turns = 3;
+        const float turns = 0.65f;
 
         _path = new OrbitalDescentPath(
             planetCenter,
@@ -38,7 +38,7 @@ public class SpaceDiverComponent : SpaceEnemyComponent
 
     private void SeekToPlanet()
     {
-        _path.Update(1.65f);
+        _path.Update(2.5f);
         
         Transform.Position2D = _path.Position;
         Transform.Rotation2D = +_path.Forward.Angle();

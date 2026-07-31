@@ -12,8 +12,8 @@ public class EnemyManager : SingletonComponent<EnemyManager>
 
     private EntityBlueprint _spaceDiverBp;
 
-    private float minRadiusSpawn = 30.0f;
-    private float maxRadiusSpawn = 33.0f;
+    private float minRadiusSpawn = 15.0f;
+    private float maxRadiusSpawn = 22.0f;
 
     private float minAngleDegreesSpawn = Mathf.Epsilon;
     private float maxAngleDegreesSpawn = Mathf.Epsilon;
@@ -34,11 +34,13 @@ public class EnemyManager : SingletonComponent<EnemyManager>
     }
     
     private float _spawnTimer;
-    private float _spawnInterval = 0.25f;
+    private float _spawnInterval = 1f;
 
     public override void OnUpdate()
     {
         _spawnTimer -= Time.DeltaTime;
+
+        _spawnInterval -= Time.DeltaTime / (60f * 10f);
 
         if (_spawnTimer > 0f)
             return;
