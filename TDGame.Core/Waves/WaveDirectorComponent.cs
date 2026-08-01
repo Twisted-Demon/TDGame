@@ -51,6 +51,7 @@ public sealed class WaveDirectorComponent :
     public override void OnCreated()
     {
         _waves.Add(AuthoredSpawnWaves.FirstWave);
+        _waves.Add(AuthoredSpawnWaves.SecondWave);
 
         BeginIntermission(2f);
     }
