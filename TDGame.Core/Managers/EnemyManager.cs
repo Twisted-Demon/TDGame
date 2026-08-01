@@ -8,105 +8,99 @@ namespace TDGame.Core.Managers;
 
 public class EnemyManager : SingletonComponent<EnemyManager>
 {
-    public List<SpaceEnemyComponent> ActiveEnemies { get; set; } = [];
+    private readonly Dictionary<string, EnemyDefinition> _definitions =
+        new(StringComparer.OrdinalIgnoreCase);
 
-    private EntityBlueprint _spaceDiverBp;
+    private readonly HashSet<SpaceEnemyComponent> _pendingEnemies = [];
+    private readonly HashSet<SpaceEnemyComponent> _activeEnemies = [];
 
-    private float minRadiusSpawn = 15.0f;
-    private float maxRadiusSpawn = 22.0f;
-
-    private float minAngleDegreesSpawn = Mathf.Epsilon;
-    private float maxAngleDegreesSpawn = Mathf.Epsilon;
+    public HashSet<SpaceEnemyComponent> ActiveEnemies => _activeEnemies;
+    
+    public bool HasLivingOrPendingEnemies => _activeEnemies.Count > 0 ||
+                                             _pendingEnemies.Count > 0;
 
     public override void OnCreated()
     {
-        _spaceDiverBp = Resources.LoadAsset<EntityBlueprint>("blueprints/space_diver_bp");
-    }
-
-    public void SpawnSpaceDiver(Vector3 spawnPosition)
-    {
-        var enemy = Scene.CreateEntity(_spaceDiverBp, createAt: spawnPosition)
-            .GetComponent<SpaceEnemyComponent>();
-
-        ActiveEnemies.Add(enemy);
-        
-        Logger.Info($"Space Diver created: {spawnPosition}");
-    }
-    
-    private float _spawnTimer;
-    private float _spawnInterval = 1f;
-
-    public override void OnUpdate()
-    {
-        _spawnTimer -= Time.DeltaTime;
-
-        _spawnInterval -= Time.DeltaTime / (60f * 10f);
-
-        if (_spawnTimer > 0f)
-            return;
-
-        _spawnTimer = _spawnInterval;
-
-        Vector2 spawnPosition = GenerateRandomSpawnPoint();
-        SpawnSpaceDiver(spawnPosition.ToVector3());
-    }
-
-    public void DestroyEnemy(SpaceEnemyComponent enemyToDestroy)
-    {
-        ActiveEnemies.Remove(enemyToDestroy);
-
-        Entity.Destroy(enemyToDestroy.Entity);
-        
-        Logger.Info($"Enemy Destroyed: {enemyToDestroy.Entity.Name}");
-    }
-
-    //todo: use physics query to get closest enemies, then find the closest
-    public SpaceEnemyComponent FindClosestEnemy(Vector3 fromPosition)
-    {
-        float closestDistanceSquared = float.MaxValue;
-        SpaceEnemyComponent closestEnemy = null;
-
-        foreach (var enemy in ActiveEnemies)
+        RegisterDefinition(new EnemyDefinition
         {
-            float distanceSquared = Vector3.DistanceSquared(
-                fromPosition, enemy.Transform.WorldPosition);
+            Id = "space_diver",
+            Blueprint = Resources.LoadAsset<EntityBlueprint>("blueprints/space_diver_bp"),
+            
+            ThreatCost = 1,
+            FirstAvailableWave = 1
+        });
+    }
 
-            if (distanceSquared < closestDistanceSquared)
-            {
-                closestDistanceSquared = distanceSquared;
-                closestEnemy = enemy;
-            }
+    public SpaceEnemyComponent SpawnEnemy(string enemyId, Vector3 spawnPosition)
+    {
+        if (!_definitions.TryGetValue(enemyId, out var definition))
+        {
+            throw new ArgumentException(
+                $"No enemy definition is registered with ID '{enemyId}'.",
+                nameof(enemyId));
         }
 
-        return closestEnemy;
+        var entity = Scene.CreateEntity(definition.Blueprint, createAt: spawnPosition);
+
+        var enemy = entity.GetComponent<SpaceEnemyComponent>();
+
+        if (enemy is null)
+        {
+            Entity.Destroy(entity);
+            
+            throw new InvalidOperationException(
+                $"Enemy blueprint '{enemyId}' does not contain a " +
+                $"{nameof(SpaceEnemyComponent)}.");
+        }
+
+        _pendingEnemies.Add(enemy);
+        
+        Logger.Info($"Enemy created: {enemyId} at {spawnPosition}");
+
+        return enemy;
     }
 
-    private Vector2 GenerateRandomSpawnPoint()
+    public void MarkEnemyReady(SpaceEnemyComponent enemy)
     {
-        float radius = Random.Shared.NextFloat(
-            minRadiusSpawn,
-            maxRadiusSpawn
-        );
+        if (enemy is null)
+            return;
 
-        float angleDegrees = Random.Shared.NextFloat(
-            minAngleDegreesSpawn,
-            maxAngleDegreesSpawn
-        );
+        _pendingEnemies.Remove(enemy);
+        _activeEnemies.Add(enemy);
+    }
+    
+    public void UnregisterEnemy(SpaceEnemyComponent enemy)
+    {
+        if (enemy is null)
+            return;
 
-        float angleRadians = Mathf.Radians(angleDegrees);
+        _pendingEnemies.Remove(enemy);
+        _activeEnemies.Remove(enemy);
+    }
+    
+    public void DestroyEnemy(SpaceEnemyComponent enemy)
+    {
+        if (enemy is null || Entity.IsDestroyed(enemy.Entity))
+            return;
 
-        return PolarToPosition(
-            Transform.WorldPosition2D,
-            radius,
-            angleRadians
-        );
+        var enemyName = enemy.Entity.Name;
+
+        // Remove immediately so targeting systems cannot select it.
+        UnregisterEnemy(enemy);
+
+        Entity.Destroy(enemy.Entity);
+
+        Logger.Info($"Enemy destroyed: {enemyName}");
     }
 
-    private Vector2 PolarToPosition(Vector2 center, float radius, float angleRadians)
+    private void RegisterDefinition(EnemyDefinition definition)
     {
-        float x = Mathf.Cos(angleRadians) * radius;
-        float y = Mathf.Sin(angleRadians) * radius;
+        ArgumentNullException.ThrowIfNull(definition);
 
-        return center + new Vector2(x, y);
+        if (!_definitions.TryAdd(definition.Id, definition))
+        {
+            throw new InvalidOperationException(
+                $"Enemy definition '{definition.Id}' is already registered.");
+        }
     }
 }

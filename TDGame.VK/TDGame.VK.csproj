@@ -11,7 +11,9 @@
     <RollForward>Major</RollForward>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
+    
     <MonoGamePlatform>DesktopVK</MonoGamePlatform>
+    <IsTDGameHost>true</IsTDGameHost>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>

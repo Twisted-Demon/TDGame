@@ -6,22 +6,20 @@ using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
+[BlueprintType(nameof(SpaceDiverComponent))]
 public class SpaceDiverComponent : SpaceEnemyComponent
 {
     private OrbitalDescentPath _path;
 
-    public override void OnCreated()
+    protected override void OnSpawnReady()
     {
-        base.OnCreated();
-
         var planetCenter = Planet.Transform.WorldPosition2D;
+        
         var spawnPosition = Transform.WorldPosition2D;
 
         const float impactRadius = 0.5f;
-
         const int orbitDirection = -1;
-
-        const float turns = 0.65f;
+        const float turns = 2f;
 
         _path = new OrbitalDescentPath(
             planetCenter,
@@ -30,15 +28,18 @@ public class SpaceDiverComponent : SpaceEnemyComponent
             orbitDirection,
             turns);
     }
-
+    
     public override void OnUpdate()
     {
+        if (_path is null)
+            return;
+        
         SeekToPlanet();
     }
 
     private void SeekToPlanet()
     {
-        _path.Update(2.5f);
+        _path.Update(MovementSpeed);
         
         Transform.Position2D = _path.Position;
         Transform.Rotation2D = +_path.Forward.Angle();

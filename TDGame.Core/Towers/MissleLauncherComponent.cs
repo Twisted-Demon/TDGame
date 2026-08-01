@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
@@ -29,6 +30,7 @@ public class MissileLauncherComponent : SpaceDefenseComponent, ICanLog<MissileLa
         projectile.Target = Target.Entity;
         projectile.Transform.Rotation2D = Transform.Rotation2D;
         projectile.LifeTime = 10f;
+        projectile.InitialVelocity = 7.0f;
     }
 
     private static bool IsInsideCone(

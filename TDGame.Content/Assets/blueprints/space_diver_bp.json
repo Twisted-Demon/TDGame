@@ -6,8 +6,10 @@
     "scale": [1.0, 1.0, 1.0],
     "components": [
         {
-            "type": "TDGame.Core.SpaceDiverComponent, TDGame.Core",
-            "BaseVelocity": 1.5
+            "type": "TDGame.Core.SpaceDiverComponent",
+            "properties": {
+                "BaseVelocity": 5.0
+            }
         },
         {
             "type": "Dreambit.ECS.SpriteAnimator, Dreambit",

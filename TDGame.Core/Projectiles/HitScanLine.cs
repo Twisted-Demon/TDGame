@@ -35,7 +35,8 @@ public class HitScanLine : DrawableComponent<HitScanLine>
 
     public override void OnAddedToEntity()
     {
-        CoroutineService.StartCoroutine(FadeOut());
+        var ch = CoroutineService.StartCoroutine(FadeOut());
+        
     }
 
     private IEnumerator FadeOut()

@@ -37,15 +37,11 @@ public class TDGameScene : Scene<TDGameScene>
 
     private void SetUpManagers()
     {
-        var enemyManager = CreateEntity("enemy_manager");
-        enemyManager.AttachComponent<EnemyManager>();
-        
-        var spaceDefenseManager = CreateEntity("space_defense_manager");
-        spaceDefenseManager.AttachComponent<SpaceDefenseManager>();
-        
-        var playerManager = CreateEntity("player_manager");
-        playerManager.AttachComponent<PlayerManager>();
-        
+        CreateEntity("enemy_manager")
+            .AttachComponent<EnemyManager>()
+            .Entity.AttachComponent<SpaceDefenseManager>()
+            .Entity.AttachComponent<PlayerManager>()
+            .Entity.AttachComponent<WaveDirectorComponent>();
     }
 
     protected override void OnUpdate()
