@@ -4,7 +4,7 @@ using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
 
-namespace TDGame.Core.Managers;
+namespace TDGame.Core;
 
 public class EnemyManager : SingletonComponent<EnemyManager>
 {
@@ -21,14 +21,7 @@ public class EnemyManager : SingletonComponent<EnemyManager>
 
     public override void OnCreated()
     {
-        RegisterDefinition(new EnemyDefinition
-        {
-            Id = "space_diver",
-            Blueprint = Resources.LoadAsset<EntityBlueprint>("blueprints/space_diver_bp"),
-            
-            ThreatCost = 1,
-            FirstAvailableWave = 1
-        });
+        RegisterEnemyDefinitions();
     }
 
     public SpaceEnemyComponent SpawnEnemy(string enemyId, Vector3 spawnPosition)
@@ -53,10 +46,10 @@ public class EnemyManager : SingletonComponent<EnemyManager>
                 $"{nameof(SpaceEnemyComponent)}.");
         }
 
+        enemy.EnemyDefinition =  definition;
+        
         _pendingEnemies.Add(enemy);
         
-        Logger.Info($"Enemy created: {enemyId} at {spawnPosition}");
-
         return enemy;
     }
 
@@ -89,8 +82,6 @@ public class EnemyManager : SingletonComponent<EnemyManager>
         UnregisterEnemy(enemy);
 
         Entity.Destroy(enemy.Entity);
-
-        Logger.Info($"Enemy destroyed: {enemyName}");
     }
 
     private void RegisterDefinition(EnemyDefinition definition)
@@ -102,5 +93,17 @@ public class EnemyManager : SingletonComponent<EnemyManager>
             throw new InvalidOperationException(
                 $"Enemy definition '{definition.Id}' is already registered.");
         }
+    }
+
+    private void RegisterDefinition(string definitionPath)
+    {
+        var definition = Resources.LoadAsset<EnemyDefinition>(definitionPath);
+        RegisterDefinition(definition);
+    }
+
+    private void RegisterEnemyDefinitions()
+    {
+        //Diver definitions
+        RegisterDefinition("definitions/enemies/space_diver_def");
     }
 }

@@ -1,0 +1,6 @@
+﻿{
+  "Id": "railgun",
+  "Blueprint": "blueprints/railgun_bp",
+  "PlacementSprite": "sprites/rail_gun_sprite",
+  "WeaponSoundCue": "sounds/cues/railgun_fire_cue"
+}

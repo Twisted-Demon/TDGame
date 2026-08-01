@@ -6,13 +6,14 @@
     "scale": [1.0, 1.0, 1.0],
     "components": [
         {
-            "type": "TDGame.Core.MissileLauncherComponent, TDGame.Core",
+            "type": "TDGame.Core.MissileLauncherComponent",
             "properties": {
-                "TargetingMode" : "Nearest"
+                "TargetingMode" : "Nearest",
+                "BaseRange": 5
             }
         },
         {
-            "type": "Dreambit.ECS.SpriteAnimator, Dreambit",
+            "type": "Dreambit.SpriteAnimator",
             "properties": {
                 "AnimationPath": "animations/missile_launcher/still_anim",
                 "PlayOnStart": true

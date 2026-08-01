@@ -2,7 +2,6 @@
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework.Input;
-using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
@@ -17,6 +16,8 @@ public abstract class SpaceEnemyComponent : Component
     
     public float CurrentHealth { get; internal set; }
     public float MovementSpeed { get; internal set; }
+    
+    public EnemyDefinition EnemyDefinition { get; internal set; }
 
     public override void OnCreated()
     {
@@ -31,7 +32,7 @@ public abstract class SpaceEnemyComponent : Component
     {
         CurrentHealth = BaseHealth;
         MovementSpeed = BaseVelocity;
-
+        
         OnSpawnReady();
         
         EnemyManager.Instance.MarkEnemyReady(this);
@@ -59,4 +60,6 @@ public abstract class SpaceEnemyComponent : Component
     {
         
     }
+    
+    
 }

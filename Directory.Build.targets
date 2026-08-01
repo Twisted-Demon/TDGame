@@ -15,14 +15,5 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
-
-        <!-- Pak files are overwritten on every build. -->
-        <Content Include="$(TDGameContentRoot)**/*.pak">
-            <Link>Content/%(RecursiveDir)%(Filename)%(Extension)</Link>
-            <TargetPath>Content/%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
-
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-        </Content>
     </ItemGroup>
 </Project>

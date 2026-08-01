@@ -2,7 +2,6 @@
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
-using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
@@ -19,7 +18,7 @@ public class SpaceDiverComponent : SpaceEnemyComponent
 
         const float impactRadius = 0.5f;
         const int orbitDirection = -1;
-        const float turns = 1.25f;
+        const float turns = 0.5f;
 
         _path = new OrbitalDescentPath(
             planetCenter,

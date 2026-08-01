@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Dreambit;
 using Dreambit.ECS;
-using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
@@ -52,6 +51,8 @@ public sealed class WaveDirectorComponent :
     {
         _waves.Add(AuthoredSpawnWaves.FirstWave);
         _waves.Add(AuthoredSpawnWaves.SecondWave);
+        _waves.Add(AuthoredSpawnWaves.ThirdWave);
+        _waves.Add(AuthoredSpawnWaves.FourthWave);
 
         BeginIntermission(2f);
     }

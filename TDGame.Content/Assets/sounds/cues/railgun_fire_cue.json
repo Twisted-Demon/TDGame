@@ -1,0 +1,12 @@
+﻿{
+  "takes": [
+    "sounds/weapons/railgun_fire"
+  ],
+  "volume": 1.0,
+  "pitch": -0.35,
+  "pitch_jitter": [0.15, 0.15],
+  "pan": 0.0,
+  "loop": false,
+  "max_overlaps": 10,
+  "restart_if_playing": false
+}

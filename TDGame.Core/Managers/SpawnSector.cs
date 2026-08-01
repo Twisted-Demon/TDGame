@@ -44,6 +44,32 @@ public sealed class SpawnSector
         
         var angleRadians = Mathf.Radians(angleDegrees);
         
-        return center.ToPolar(radius, angleRadians);
+        return PolarMath.ToWorldPosition(center, radius, angleRadians);
     }
+
+    public static SpawnSector EastSector = new SpawnSector(
+        minimumRadius: 12f,
+        maximumRadius: 15f,
+        minimumAngleDegrees: 0f,
+        maximumAngleDegrees: 15f
+    );
+    public static SpawnSector SouthSector = new SpawnSector(
+        minimumRadius: 12f,
+        maximumRadius: 15f,
+        minimumAngleDegrees: 90f,
+        maximumAngleDegrees: 105f
+    );
+    public static SpawnSector WestSector = new SpawnSector(
+        minimumRadius: 12f,
+        maximumRadius: 15f,
+        minimumAngleDegrees: 180f,
+        maximumAngleDegrees: 195f
+    );
+    
+    public static SpawnSector NorthSector = new SpawnSector(
+        minimumRadius: 12f,
+        maximumRadius: 15f,
+        minimumAngleDegrees: 270f,
+        maximumAngleDegrees: 285f
+    );
 }

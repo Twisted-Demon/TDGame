@@ -1,27 +1,23 @@
-﻿using Dreambit;
+﻿using System;
+using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace TDGame.Core.Managers;
+namespace TDGame.Core;
 
 public class PlayerManager : SingletonComponent<PlayerManager>
 {
-    public Entity PlacementIndicator;
-
-    public EntityBlueprint SelectedDefenseBp;
-    public string PlacementAnimPath;
+    public SpriteDrawer PlacementIndicator;
+    public SpaceTowerDefinition SelectedTowerDefinition;
 
     public override void OnCreated()
     {
-        PlacementIndicator = Scene.CreateEntity("placement_indicator");
-        var placementAnim = PlacementIndicator.AttachComponent<SpriteAnimator>();
+        PlacementIndicator = Entity.CreateChildOf(Entity, "placement_indicator")
+            .AttachComponent<SpriteDrawer>().WithOpacity(0.5f);
 
-        PlacementAnimPath = "animations/railgun/still_anim";
-        placementAnim.AnimationPath = PlacementAnimPath;
-        PlacementIndicator.GetComponent<SpriteDrawer>().WithOpacity(0.5f);
-
-        SelectedDefenseBp = Resources.LoadAsset<EntityBlueprint>("blueprints/missile_launcher_bp");
+        SelectedTowerDefinition 
+            = SpaceDefenseManager.Instance.GetSpaceTowerDefinition("railgun");;
     }
 
     public override void OnUpdate()
@@ -38,33 +34,30 @@ public class PlayerManager : SingletonComponent<PlayerManager>
             var directionToSpawn = Vector2.Normalize(spawnPosition - planetPosition);
             
             var position = planetPosition + directionToSpawn * distanceFromPlanet;
-            
-            Entity.Create(SelectedDefenseBp, createAt: position.ToVector3());
+
+            if (!Component.IsNull(SpaceDefenseManager.Instance))
+                SpaceDefenseManager.Instance.SpawnTower(SelectedTowerDefinition.Id, position.ToVector3());
             
             Logger.Info(position.ToString());
         }
 
         if (Input.IsKeyPressed(Keys.D1))
         {
-            SelectedDefenseBp = Resources.LoadAsset<EntityBlueprint>("blueprints/missile_launcher_bp");
-            PlacementAnimPath = "animations/missile_launcher/still_anim";
-
-            PlacementIndicator
-                .GetComponent<SpriteAnimator>().AnimationPath = PlacementAnimPath;
+            SelectedTowerDefinition 
+                = SpaceDefenseManager.Instance.GetSpaceTowerDefinition("railgun");
         }
         
         if (Input.IsKeyPressed(Keys.D2))
         {
-            SelectedDefenseBp = Resources.LoadAsset<EntityBlueprint>("blueprints/railgun_bp");
-            PlacementAnimPath = "animations/railgun/still_anim";
-            
-            PlacementIndicator
-                .GetComponent<SpriteAnimator>().AnimationPath = PlacementAnimPath;
+            SelectedTowerDefinition 
+                = SpaceDefenseManager.Instance.GetSpaceTowerDefinition("missile_launcher");
         }
     }
 
     private void UpdatePlacementIndicator()
     {
+        PlacementIndicator.Sprite = SelectedTowerDefinition.PlacementSprite;
+        
         var mousePos = Scene.MainCamera.ScreenToWorld(Input.GetMousePosition());
         var planetPosition = SpaceDefenseManager.Instance.PlanetEntity.Transform.WorldPosition2D;
 
@@ -76,10 +69,4 @@ public class PlayerManager : SingletonComponent<PlayerManager>
         PlacementIndicator.Transform.Position2D = finalPos;
     }
     
-}
-
-public enum DefenseSatelliteType
-{
-    Railgun,
-    MissileLauncher
 }

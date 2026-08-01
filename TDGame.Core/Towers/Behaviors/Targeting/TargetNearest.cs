@@ -2,7 +2,6 @@
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
-using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 

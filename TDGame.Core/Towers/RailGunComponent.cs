@@ -2,15 +2,14 @@
 using Dreambit;
 using Dreambit.ECS;
 using Microsoft.Xna.Framework;
-using TDGame.Core.Managers;
 using TDGame.Core.Projectiles;
 
 namespace TDGame.Core;
 
-public class RailGunComponent : SpaceDefenseComponent, ICanLog<RailGunComponent>
+public class RailGunComponent : SpaceTowerComponent, ICanLog<RailGunComponent>
 {
     public new TDGameScene Scene { get; set; }
-    public ILogger Logger { get; } = new Logger<SpaceDefenseComponent>();
+    public ILogger Logger { get; } = new Logger<SpaceTowerComponent>();
     public Entity Muzzle { get; set; }
 
     public override void OnCreated()
@@ -23,16 +22,18 @@ public class RailGunComponent : SpaceDefenseComponent, ICanLog<RailGunComponent>
 
     protected override void OnAttack()
     {
-        Target = TargetingBehavior.SelectTarget(Transform, Range, ["enemy"]);
+        Target = TargetingBehavior.SelectTarget(Transform, CurrentRange, ["enemy"]);
 
         if (Target is null) return;
         
-        FaceToTarget();
+        FaceTarget();
         
         var start = Muzzle.Transform.WorldPosition;
         var end = Target.Transform.WorldPosition;
 
         HitScanLine.Create(start, end, Color.White, 0.5f);
+        
+        GameAudioManager.Instance.Play(Definition.WeaponSoundCue);
         
         EnemyManager.Instance.DestroyEnemy(Target);
     }

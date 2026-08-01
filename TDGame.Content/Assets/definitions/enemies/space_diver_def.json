@@ -1,0 +1,6 @@
+﻿{
+  "Id": "space_diver",
+  "Blueprint": "blueprints/space_diver_bp",
+  "ThreatCost": 1,
+  "FirstAvailableWave": 1
+}

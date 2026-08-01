@@ -4,7 +4,6 @@ using Dreambit.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
@@ -37,11 +36,24 @@ public class TDGameScene : Scene<TDGameScene>
 
     private void SetUpManagers()
     {
-        CreateEntity("enemy_manager")
-            .AttachComponent<EnemyManager>()
-            .Entity.AttachComponent<SpaceDefenseManager>()
-            .Entity.AttachComponent<PlayerManager>()
-            .Entity.AttachComponent<WaveDirectorComponent>();
+        CreateEntity("game audio manager")
+            .AttachComponent<GameAudioManager>();
+
+        CreateEntity("enemy manager")
+            .AttachComponent<EnemyManager>();
+        
+        CreateEntity("space defense manager")
+            .AttachComponent<SpaceDefenseManager>();
+        
+        CreateEntity("orbital ring manager")
+            .AttachComponent<OrbitalRingManager>()
+            .CreateOrbitalRing();
+        
+        CreateEntity("player manager")
+            .AttachComponent<PlayerManager>();
+        
+        CreateEntity("wave director")
+            .AttachComponent<WaveDirectorComponent>();
     }
 
     protected override void OnUpdate()

@@ -2,7 +2,6 @@
 using System.Linq;
 using Dreambit;
 using Dreambit.ECS;
-using TDGame.Core.Managers;
 
 namespace TDGame.Core;
 
@@ -10,7 +9,7 @@ public class HomingProjectile : Projectile
 {
     public Entity Target { get; set; }
 
-    public float TurnSpeed { get; set; } = 120f;
+    public float TurnSpeed { get; set; } = 360f;
 
     public ITargetingBehavior RetargetBehavior { get; set; } = new TargetNearest();
 

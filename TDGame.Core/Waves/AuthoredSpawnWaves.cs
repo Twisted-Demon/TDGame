@@ -4,66 +4,93 @@ public static class AuthoredSpawnWaves
 {
     public static readonly WavePlan FirstWave = new WavePlan
     {
-        Name = "First Wave",
-        
+        Name = "First Contact",
+        IntermissionAfterWave = 1f,
         Groups = 
         [
             new SpawnGroup()
             {
                 EnemyId = "space_diver",
-                Count = 16,
-                SpawnInterval = 0.8f,
+                Count = 24,
+                SpawnInterval = 0.75f,
                 
-                Sector = new SpawnSector(
-                    minimumRadius:18f,
-                    maximumRadius:20f,
-                    minimumAngleDegrees: 15f,
-                    maximumAngleDegrees: 25f)
-            },
-            new SpawnGroup()
-            {
-                EnemyId = "space_diver",
-                Count = 16,
-                SpawnInterval = 0.8f,
-                
-                Sector = new SpawnSector(
-                    minimumRadius:18f,
-                    maximumRadius:20f,
-                    minimumAngleDegrees: 180f,
-                    maximumAngleDegrees: 190f)
+                Sector = SpawnSector.EastSector
             }
         ]
     };
     
     public static readonly WavePlan SecondWave = new WavePlan
     {
-        Name = "First Wave",
-        
+        Name = "Opposite Side",
+        IntermissionAfterWave = 1f,
         Groups = 
         [
             new SpawnGroup()
             {
                 EnemyId = "space_diver",
                 Count = 24,
-                SpawnInterval = 0.6f,
+                SpawnInterval = 0.5f,
                 
-                Sector = new SpawnSector(
-                    minimumRadius:18f,
-                    maximumRadius:20f,
-                    minimumAngleDegrees: 85f,
-                    maximumAngleDegrees: 95f)
-            },
-            new SpawnGroup()
+                Sector = SpawnSector.WestSector
+            }
+        ]
+    };
+
+    public static readonly WavePlan ThirdWave = new WavePlan
+    {
+        Name = "Two Fronts",
+        IntermissionAfterWave = 1f,
+        Groups =
+        [
+            new SpawnGroup
             {
                 EnemyId = "space_diver",
-                Count = 24,
-                SpawnInterval = 0.6f,
-                
-                Sector = new SpawnSector(
-                    minimumRadius:18f,
-                    maximumRadius:20f,
-                    minimumAngleDegrees: 265f,
-                    maximumAngleDegrees: 275f)
+                Count = 32,
+                SpawnInterval = 0.75F,
+
+                Sector = SpawnSector.WestSector
+            },
+            new SpawnGroup
+            {
+                EnemyId = "space_diver",
+                Count = 32,
+                SpawnInterval = 0.75F,
+
+                Sector = SpawnSector.EastSector
+            }
+        ]
+    };
+    
+    public static readonly WavePlan FourthWave = new WavePlan
+    {
+        Name = "Three Fronts",
+        IntermissionAfterWave = 1f,
+        Groups =
+        [
+            new SpawnGroup
+            {
+                EnemyId = "space_diver",
+                Count = 42,
+                SpawnInterval = 0.75F,
+
+                Sector = SpawnSector.WestSector
+            },
+            new SpawnGroup
+            {
+                EnemyId = "space_diver",
+                Count = 42,
+                SpawnInterval = 0.75F,
+
+                Sector = SpawnSector.EastSector
+            },
+            new SpawnGroup
+            {
+                EnemyId = "space_diver",
+                Count = 42,
+                SpawnInterval = 0.75F,
+                DelayBeforeGroup = 7.5f,
+
+                Sector = SpawnSector.NorthSector
             }
         ]
     };

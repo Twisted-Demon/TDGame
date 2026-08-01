@@ -1,0 +1,6 @@
+﻿{
+  "Id": "missile_launcher",
+  "Blueprint": "blueprints/missile_launcher_bp",
+  "PlacementSprite": "sprites/missile_launcher_sprite",
+  "WeaponSoundCue": "sounds/cues/missile_launcher_fire_cue"
+}
