@@ -8,6 +8,11 @@ public class OrbitalRingDrawer : DrawableComponent
 {
     public override RectangleF Bounds { get; } = Scene.Instance.MainCamera.BoundsF;
 
+    public override void OnCreated()
+    {
+        DrawLayer = -100;
+    }
+
     public override void OnDraw()
     {
         var orbitalRings = OrbitalRingManager.Instance.GetAllRings();
@@ -19,9 +24,10 @@ public class OrbitalRingDrawer : DrawableComponent
             Dreambit.Core.SpriteBatch.DrawHollowCircle(
                 planetPosition,
                 ring.Radius,
-                Color.White,
-                segments: 120,
-                thickness: Scene.MainCamera.WorldUnitsPerTexturePixel
+                Color.White * 0.35f,
+                segments: 128,
+                thickness: 1.25f * Scene.MainCamera.WorldUnitsPerTexturePixel 
+                * (1 / Scene.MainCamera.Zoom)
                 );
         }
     }

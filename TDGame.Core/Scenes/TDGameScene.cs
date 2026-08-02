@@ -44,10 +44,12 @@ public class TDGameScene : Scene<TDGameScene>
         
         CreateEntity("space defense manager")
             .AttachComponent<SpaceDefenseManager>();
-        
-        CreateEntity("orbital ring manager")
-            .AttachComponent<OrbitalRingManager>()
-            .CreateOrbitalRing();
+
+        var ring = CreateEntity("orbital ring manager")
+            .AttachComponent<OrbitalRingManager>();
+
+        ring.CreateOrbitalRing();
+        ring.CreateOrbitalRing();
         
         CreateEntity("player manager")
             .AttachComponent<PlayerManager>();
