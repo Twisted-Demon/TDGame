@@ -14,7 +14,9 @@ public class MissileLauncherComponent : SpaceTowerComponent, ICanLog<MissileLaun
     public Entity Muzzle { get; set; }
     public float ConeAngleDegrees { get; set; } = 60f;
 
-    private EntityBlueprint ProjectileBlueprint => Resources.LoadAsset<EntityBlueprint>("blueprints/basic_rocket_bp");
+    private EntityBlueprint ProjectileBlueprint =>
+        Resources.LoadAsset<EntityBlueprint>(
+            "gameplay/projectiles/basic-rocket/basic-rocket.blueprint");
 
     protected override void OnAttack()
     {

@@ -1,0 +1,6 @@
+﻿{
+  "Id": "space_diver",
+  "Blueprint": "gameplay/enemies/space-diver/space-diver.blueprint",
+  "ThreatCost": 1,
+  "FirstAvailableWave": 1
+}

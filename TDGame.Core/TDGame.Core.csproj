@@ -9,13 +9,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference
-            Include="MonoGame.Framework.Native"
-            Version="3.8.5">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\DreambitEngine\MonoGame\MonoGame.Framework\MonoGame.Framework.Native.csproj" />
     <ProjectReference Include="..\DreambitEngine\DreambitEngine\DreambitEngine.csproj" />
+    <ProjectReference Include="..\DreambitEngine\Dreambit.Content\Dreambit.Content.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\TDGame.Content\TDGame.Content.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 </Project>

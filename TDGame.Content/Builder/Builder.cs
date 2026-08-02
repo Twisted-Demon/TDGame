@@ -21,11 +21,6 @@ public sealed class Builder : ContentBuilder
     {
         var content = new ContentCollection();
 
-        content.Include<WildcardRule>("*.fx");
-
-        content.IncludeCopy<WildcardRule>("*.ttf");
-        content.IncludeCopy<WildcardRule>("*.pak");
-
         content.Exclude<WildcardRule>("*.xnb");
 
         return content;

@@ -18,10 +18,12 @@ public class GameAudioManager
         _emitter.MasterVolume = 0.15f;
         
         _gameAmbienceCue =
-            Resources.LoadAsset<SoundCue>("sounds/cues/game_ambience_cue");
+            Resources.LoadAsset<SoundCue>(
+                "audio/ambience/game-ambience.sound-cue");
         
         _backgroundMusicCue =
-            Resources.LoadAsset<SoundCue>("sounds/cues/background_music_cue");
+            Resources.LoadAsset<SoundCue>(
+                "audio/music/background-music.sound-cue");
 
         //
         _emitter.Play(_backgroundMusicCue);

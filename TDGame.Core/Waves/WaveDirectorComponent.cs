@@ -53,6 +53,12 @@ public sealed class WaveDirectorComponent :
         _waves.Add(AuthoredSpawnWaves.SecondWave);
         _waves.Add(AuthoredSpawnWaves.ThirdWave);
         _waves.Add(AuthoredSpawnWaves.FourthWave);
+        _waves.Add(AuthoredSpawnWaves.FifthWave);
+        _waves.Add(AuthoredSpawnWaves.SixthWave);
+        _waves.Add(AuthoredSpawnWaves.SeventhWave);
+        _waves.Add(AuthoredSpawnWaves.EighthWave);
+        _waves.Add(AuthoredSpawnWaves.NinthWave);
+        _waves.Add(AuthoredSpawnWaves.TenthWave);
 
         BeginIntermission(2f);
     }

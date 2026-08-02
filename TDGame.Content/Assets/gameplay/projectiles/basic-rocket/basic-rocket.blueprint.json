@@ -1,0 +1,19 @@
+{
+    "name": "basic rocket",
+    "tags": ["friendly", "projectile"],
+    "components": [
+        {
+            "type": "TDGame.Core.HomingProjectile, TDGame.Core",
+            "properties": {
+                "InitialVelocity": 1.75
+            }
+        },
+        {
+            "type": "Dreambit.ECS.SpriteAnimator, Dreambit",
+            "properties": {
+                "AnimationPath": "gameplay/projectiles/basic-rocket/basic-rocket-flight.animation",
+                "PlayOnStart": true
+            }
+        }
+    ]
+}

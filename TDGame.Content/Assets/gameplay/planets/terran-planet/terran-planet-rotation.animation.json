@@ -1,0 +1,8 @@
+{
+    "index_start": 0,
+    "index_end": 143,
+    "pivot": [48, 48],
+    "frame_rate": 8,
+    "sprite_sheet_path": "gameplay/planets/terran-planet/terran-planet.sprite-sheet",
+    "one_shot": false
+}

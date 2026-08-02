@@ -1,25 +1,45 @@
 <Project>
-  <Target Name="BuildContent" BeforeTargets="BeforeCompile">
-    <PropertyGroup>
-      <ContentBuilderProject>$(MSBuildThisFileDirectory)TDGame.Content.csproj</ContentBuilderProject>
+  <PropertyGroup>
+    <TDGameContentBuilderProject>$(MSBuildThisFileDirectory)TDGame.Content.csproj</TDGameContentBuilderProject>
+    <TDGameContentBuilderDll>$(MSBuildThisFileDirectory)bin\$(Configuration)\TDGame.Content.dll</TDGameContentBuilderDll>
+    <TDGameContentSource>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\Assets'))</TDGameContentSource>
+    <TDGameContentOutput>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\Build\$(Configuration)'))</TDGameContentOutput>
+    <TDGameContentIntermediate>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\obj\$(Configuration)\TDGameContent'))</TDGameContentIntermediate>
+    <TDGameAssetBakerProject>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\..\DreambitEngine\DreambitEngine.AssetBaker\DreambitEngine.AssetBaker.csproj'))</TDGameAssetBakerProject>
+    <TDGameAssetBakerDll>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\..\DreambitEngine\DreambitEngine.AssetBaker\Build\$(Configuration)\AssetBaker.dll'))</TDGameAssetBakerDll>
+    <TDGamePakOutput>$(TDGameContentOutput)\Content\content.pak</TDGamePakOutput>
+  </PropertyGroup>
 
-      <ContentBuilderDll>$(MSBuildThisFileDirectory)bin\$(Configuration)\TDGame.Content.dll</ContentBuilderDll>
+  <ItemGroup>
+    <TDGamePakInput Include="$(TDGameContentSource)\**\*.png;$(TDGameContentSource)\**\*.jpg;$(TDGameContentSource)\**\*.jpeg;$(TDGameContentSource)\**\*.bmp;$(TDGameContentSource)\**\*.tga;$(TDGameContentSource)\**\*.json;$(TDGameContentSource)\**\*.ldtk;$(TDGameContentSource)\**\*.ldtkl;$(TDGameContentSource)\**\*.yaml;$(TDGameContentSource)\**\*.yml;$(TDGameContentSource)\**\*.wav;$(TDGameContentSource)\**\*.ogg;$(TDGameContentSource)\**\*.mp3" />
+  </ItemGroup>
 
-      <ContentSource>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\Assets'))</ContentSource>
+  <Target
+    Name="BakeTDGamePak"
+    Inputs="@(TDGamePakInput)"
+    Outputs="$(TDGamePakOutput)">
+    <MSBuild
+      Projects="$(TDGameAssetBakerProject)"
+      Targets="Build"
+      Properties="Configuration=$(Configuration)"
+      RemoveProperties="TargetFramework;RuntimeIdentifier;RuntimeIdentifiers;OutputPath;BaseOutputPath" />
 
-      <ContentOutput>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\Build\$(Configuration)'))</ContentOutput>
+    <Exec Command="dotnet &quot;$(TDGameAssetBakerDll)&quot; bake-pak &quot;$(TDGameContentSource)&quot; &quot;$(TDGamePakOutput)&quot;" />
+  </Target>
 
-      <ContentIntermediate>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\obj\$(Configuration)\Content'))</ContentIntermediate>
-    </PropertyGroup>
+  <Target
+    Name="BuildTDGameContent"
+    BeforeTargets="BeforeCompile"
+    DependsOnTargets="BakeTDGamePak">
 
     <MSBuild
-            Projects="$(ContentBuilderProject)"
+            Projects="$(TDGameContentBuilderProject)"
             Targets="Build"
             Properties="Configuration=$(Configuration)"
             RemoveProperties="TargetFramework;RuntimeIdentifier;RuntimeIdentifiers;OutputPath;BaseOutputPath" />
 
     <Exec
-            Command="dotnet &quot;$(ContentBuilderDll)&quot; build -p &quot;$(MonoGamePlatform)&quot; -s &quot;$(ContentSource)&quot; -o &quot;$(ContentOutput)&quot; -i &quot;$(ContentIntermediate)&quot;"
+            Command="dotnet &quot;$(TDGameContentBuilderDll)&quot; build -p &quot;$(MonoGamePlatform)&quot; -s &quot;$(TDGameContentSource)&quot; -o &quot;$(TDGameContentOutput)&quot; -i &quot;$(TDGameContentIntermediate)&quot;"
             CustomErrorRegularExpression="\[E\] .+"
             CustomWarningRegularExpression="\[W\] .+" />
   </Target>

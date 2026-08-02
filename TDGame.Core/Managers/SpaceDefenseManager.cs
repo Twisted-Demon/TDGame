@@ -31,7 +31,8 @@ public class SpaceDefenseManager : SingletonComponent<SpaceDefenseManager>
 
     public void CreatePlanet()
     {
-        var planetBp = Resources.LoadAsset<EntityBlueprint>("blueprints/terran_planet_bp");
+        var planetBp = Resources.LoadAsset<EntityBlueprint>(
+            "gameplay/planets/terran-planet/terran-planet.blueprint");
 
         PlanetEntity = Scene.CreateEntity(planetBp);
         Scene.MainCamera.ForcePosition(PlanetEntity.Transform.Position);
@@ -123,9 +124,11 @@ public class SpaceDefenseManager : SingletonComponent<SpaceDefenseManager>
     private void RegisterTowerDefinitions()
     {
         //Railgun definitions
-        RegisterDefinition("definitions/towers/railgun_def");
+        RegisterDefinition(
+            "gameplay/towers/railgun/railgun.tower-definition");
         
         //missile launcher definitions
-        RegisterDefinition("definitions/towers/missile_launcher_def");
+        RegisterDefinition(
+            "gameplay/towers/missile-launcher/missile-launcher.tower-definition");
     }
 }

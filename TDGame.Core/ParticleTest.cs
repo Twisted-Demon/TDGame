@@ -15,7 +15,7 @@ public class ParticleTest : Component<ParticleTest>
 
     public override void OnCreated()
     {
-        PSystem.TexturePath = "textures/particles/1x1";
+        PSystem.TexturePath = "shared/particles/white-pixel.texture";
 
         _config = new ParticleFxConfig
         {

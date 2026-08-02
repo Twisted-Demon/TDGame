@@ -1,0 +1,16 @@
+{
+    "name": "terran planet",
+    "tags": ["planet"],
+    "position": [0.0, 0.0, 0.0],
+    "rotation": [0.0, 0.0, 0.0],
+    "scale": [1.0, 1.0, 1.0],
+    "components": [
+        {
+            "type": "Dreambit.ECS.SpriteAnimator, Dreambit",
+            "properties": {
+                "AnimationPath": "gameplay/planets/terran-planet/terran-planet-rotation.animation",
+                "PlayOnStart": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+﻿{
+  "Id": "missile_launcher",
+  "Blueprint": "gameplay/towers/missile-launcher/missile-launcher.blueprint",
+  "PlacementSprite": "gameplay/towers/missile-launcher/missile-launcher-placement.sprite",
+  "WeaponSoundCue": "gameplay/towers/missile-launcher/missile-launcher-fire.sound-cue"
+}

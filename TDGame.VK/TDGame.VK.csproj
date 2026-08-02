@@ -33,18 +33,20 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.Native" Version="3.8.5" />
-    <PackageReference Include="MonoGame.Runtime.Windows.Vulkan" Version="3.8.5" />
-    <PackageReference Include="MonoGame.Runtime.Mac.Vulkan" Version="3.8.5" />
-    <PackageReference Include="MonoGame.Runtime.Linux.Vulkan" Version="3.8.5" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\DreambitEngine\MonoGame\MonoGame.Framework\MonoGame.Framework.Native.csproj" />
+    <ProjectReference Include="..\DreambitEngine\MonoGame\src\NuGetPackages\MonoGame.Runtime.Windows.Vulkan\MonoGame.Runtime.Windows.Vulkan.csproj" />
+    <ProjectReference Include="..\DreambitEngine\MonoGame\src\NuGetPackages\MonoGame.Runtime.Mac.Vulkan\MonoGame.Runtime.Mac.Vulkan.csproj" />
+    <ProjectReference Include="..\DreambitEngine\MonoGame\src\NuGetPackages\MonoGame.Runtime.Linux.Vulkan\MonoGame.Runtime.Linux.Vulkan.csproj" />
+    <ProjectReference Include="..\DreambitEngine\Dreambit.Content\Dreambit.Content.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\TDGame.Content\TDGame.Content.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\TDGame.Core\TDGame.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Include="..\TDGame.Core\Content\**\*" />
+    <UpToDateCheckInput Include="..\DreambitEngine\Dreambit.Content\Assets\**\*" />
+    <UpToDateCheckInput Include="..\TDGame.Content\Assets\**\*" />
   </ItemGroup>
 
   <Import Project="..\TDGame.Content\BuildContent.targets" />
+  <Import Project="..\DreambitEngine\Dreambit.Content\BuildContent.targets" />
 </Project>

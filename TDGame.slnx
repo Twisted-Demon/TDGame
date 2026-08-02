@@ -1,6 +1,15 @@
 <Solution>
-  <Project Path="DreambitEngine/DreambitEngine/DreambitEngine.csproj" />
-  <Project Path="DreambitEngine/LDtkMonogame/LDtk/LDtk.csproj" />
+  <Folder Name="/Dreambit/">
+    <Project Path="DreambitEngine/Dreambit.Content/Dreambit.Content.csproj" />
+    <Project Path="DreambitEngine/Dreambit.Examples/Dreambit.Examples.csproj" />
+    <Project Path="DreambitEngine/Dreambit.Examples.Content/Dreambit.Examples.Content.csproj" />
+    <Project Path="DreambitEngine/DreambitEngine/DreambitEngine.csproj" />
+    <Project Path="DreambitEngine/LDtkMonogame/LDtk/LDtk.csproj" />
+  </Folder>
+  <Folder Name="/Monogame/">
+    <Project Path="DreambitEngine/MonoGame/MonoGame.Framework.Content.Pipeline/MonoGame.Framework.Content.Pipeline.csproj" />
+    <Project Path="DreambitEngine/MonoGame/MonoGame.Framework/MonoGame.Framework.Native.csproj" />
+  </Folder>
   <Project Path="TDGame.Content/TDGame.Content.csproj" />
   <Project Path="TDGame.Core/TDGame.Core.csproj" />
   <Project Path="TDGame.VK/TDGame.VK.csproj" />

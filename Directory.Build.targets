@@ -1,19 +1,31 @@
 ﻿<Project>
     <PropertyGroup>
-        <TDGameContentRoot>$(MSBuildThisFileDirectory)TDGame.Core/Content/</TDGameContentRoot>
+        <DreambitMonoGameRoot>$(MSBuildThisFileDirectory)DreambitEngine/MonoGame/</DreambitMonoGameRoot>
+        <DisableNativeBuild Condition="'$(MSBuildProjectName)' == 'MonoGame.Framework.Content.Pipeline'">true</DisableNativeBuild>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(IsTDGameHost)' == 'true'">
-        <!-- Normal content remains incremental. -->
-        <Content Include="
-        $(TDGameContentRoot)**/*.xnb;
-        $(TDGameContentRoot)**/*.ttf">
-
-            <Link>Content/%(RecursiveDir)%(Filename)%(Extension)</Link>
-            <TargetPath>Content/%(RecursiveDir)%(Filename)%(Extension)</TargetPath>
-
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
+    <!-- LDtkMonogame is itself a submodule, so redirect its MonoGame packages here
+         instead of making an uncommittable change inside that external repository. -->
+    <ItemGroup Condition="$([System.String]::Copy('$(MSBuildProjectDirectory)').Contains('LDtkMonogame'))">
+        <PackageReference Remove="MonoGame.Framework.Native;MonoGame.Framework.DesktopGL;MonoGame.Framework.Content.Pipeline;MonoGame.Content.Builder.Task" />
+        <ProjectReference
+                Include="$(DreambitMonoGameRoot)MonoGame.Framework/MonoGame.Framework.Native.csproj"
+                Condition="'$(MSBuildProjectName)' == 'LDtk' Or '$(MSBuildProjectName)' == 'LDtk.ContentPipeline' Or '$(MSBuildProjectName)' == 'LDtk.Example' Or '$(MSBuildProjectName)' == 'LDtk.LevelViewer' Or '$(MSBuildProjectName)' == 'LDtk.Tests'" />
+        <ProjectReference
+                Include="$(DreambitMonoGameRoot)MonoGame.Framework.Content.Pipeline/MonoGame.Framework.Content.Pipeline.csproj"
+                Condition="'$(MSBuildProjectName)' == 'LDtk.ContentPipeline'" />
+        <ProjectReference
+                Include="$(DreambitMonoGameRoot)Tools/MonoGame.Content.Builder.Task/MonoGame.Content.Builder.Task.csproj"
+                ReferenceOutputAssembly="false"
+                Condition="'$(MSBuildProjectName)' == 'LDtk.Example'" />
+        <ProjectReference
+                Include="$(DreambitMonoGameRoot)src/NuGetPackages/MonoGame.Runtime.Windows.Vulkan/MonoGame.Runtime.Windows.Vulkan.csproj"
+                Condition="'$(MSBuildProjectName)' == 'LDtk.Example' Or '$(MSBuildProjectName)' == 'LDtk.LevelViewer' Or '$(MSBuildProjectName)' == 'LDtk.Tests'" />
+        <ProjectReference
+                Include="$(DreambitMonoGameRoot)src/NuGetPackages/MonoGame.Runtime.Mac.Vulkan/MonoGame.Runtime.Mac.Vulkan.csproj"
+                Condition="'$(MSBuildProjectName)' == 'LDtk.Example' Or '$(MSBuildProjectName)' == 'LDtk.LevelViewer' Or '$(MSBuildProjectName)' == 'LDtk.Tests'" />
+        <ProjectReference
+                Include="$(DreambitMonoGameRoot)src/NuGetPackages/MonoGame.Runtime.Linux.Vulkan/MonoGame.Runtime.Linux.Vulkan.csproj"
+                Condition="'$(MSBuildProjectName)' == 'LDtk.Example' Or '$(MSBuildProjectName)' == 'LDtk.LevelViewer' Or '$(MSBuildProjectName)' == 'LDtk.Tests'" />
     </ItemGroup>
 </Project>

@@ -104,6 +104,7 @@ public class EnemyManager : SingletonComponent<EnemyManager>
     private void RegisterEnemyDefinitions()
     {
         //Diver definitions
-        RegisterDefinition("definitions/enemies/space_diver_def");
+        RegisterDefinition(
+            "gameplay/enemies/space-diver/space-diver.enemy-definition");
     }
 }

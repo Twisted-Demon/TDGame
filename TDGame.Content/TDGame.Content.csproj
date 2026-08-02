@@ -7,24 +7,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.5" />
-    <PackageReference Include="MonoGame.Framework.Native" Version="3.8.5">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Library.FreeType" Version="2.13.2.4" />
-    <PackageReference Include="MonoGame.Library.MojoShader" Version="1.0.0.6" />
-    <PackageReference Include="MonoGame.Tool.Basisu" Version="2.0.2.*" />
-    <PackageReference Include="MonoGame.Tool.Crunch" Version="1.0.4.*" />
-    <PackageReference Include="MonoGame.Tool.Dxc" Version="1.8.2505.*" />
-    <PackageReference Include="MonoGame.Tool.FFmpeg" Version="7.0.0.*" />
-    <PackageReference Include="MonoGame.Tool.FFprobe" Version="7.0.0.*" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Assets\Effects\ColorCorrection.fx" />
-    <ClCompile Include="Assets\Effects\ForwardDiffuse.fx" />
-    <ClCompile Include="Assets\Effects\ForwardLighting2D.fx" />
-    <ClCompile Include="Assets\Effects\PointLight2D.fx" />
-    <ClCompile Include="Assets\Effects\Tint.fx" />
-    <ClCompile Include="Assets\Effects\WorldRing.fx" />
+    <ProjectReference Include="..\DreambitEngine\MonoGame\MonoGame.Framework\MonoGame.Framework.Native.csproj" />
+    <ProjectReference Include="..\DreambitEngine\MonoGame\MonoGame.Framework.Content.Pipeline\MonoGame.Framework.Content.Pipeline.csproj" />
   </ItemGroup>
 </Project>
