@@ -24,7 +24,7 @@ public class PlayerManager : SingletonComponent<PlayerManager>
     {
         UpdatePlacementIndicator();
         
-        if (Input.IsMousePressed(MouseButton.Left))
+        if (Input.LeftPressed())
         {
             var spawnPosition = Scene.MainCamera.ScreenToWorld(Input.GetMousePosition());
             var planetPosition = SpaceDefenseManager.Instance.PlanetEntity.Transform.WorldPosition2D;

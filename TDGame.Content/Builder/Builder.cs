@@ -22,6 +22,7 @@ public sealed class Builder : ContentBuilder
         var content = new ContentCollection();
 
         content.Exclude<WildcardRule>("*.xnb");
+        content.IncludeCopy<WildcardRule>("*.xml");
 
         return content;
     }

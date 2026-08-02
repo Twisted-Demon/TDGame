@@ -7,7 +7,9 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DreambitEngine\MonoGame\MonoGame.Framework\MonoGame.Framework.Native.csproj" />
-    <ProjectReference Include="..\DreambitEngine\MonoGame\MonoGame.Framework.Content.Pipeline\MonoGame.Framework.Content.Pipeline.csproj" />
+    <PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.5" />
+    <PackageReference Include="MonoGame.Framework.Native" Version="3.8.5">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>
