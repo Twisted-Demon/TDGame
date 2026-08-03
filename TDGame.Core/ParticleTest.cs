@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 namespace TDGame.Core;
 
 [Require(typeof(ParticleSystemDrawer))]
-public class ParticleTest : Component<ParticleTest>
+public class ParticleTest : Component
 {
     [FromRequired]
     public ParticleSystemDrawer PSystem { get; set; }
