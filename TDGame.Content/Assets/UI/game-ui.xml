@@ -1,0 +1,61 @@
+<Ui>
+    <!-- 
+    Left is main game space, right is unit selection 
+    -->
+    <Grid id="view-surface"
+          width="100%" height="100%"
+          columns="*,15%">
+
+        <Border grid-column="1"
+                width="100%" height="100%"
+                background-tint="#242832">
+            <Border.Background>
+                <SolidColorBrush/>
+            </Border.Background>
+
+            <VerticalStackPanel width="100%" height="100%"
+                                cross-alignment="Start"
+                                padding="6">
+
+                <Text width="100%" height="*"
+                      text="Unit Selection"
+                      font="monogram" font-size="18"
+                      text-color="#8FC7FF"
+                      horizontal-alignment="Left"/>
+
+                <ListBox id="unit-list"
+                         width="100%" height="100%"
+                         spacing="6"
+                         selected-index="0"
+                         background-tint="#11141A">
+                    <ListBox.Background>
+                        <SolidColorBrush/>
+                    </ListBox.Background>
+
+                    <!--
+                    <Button width="48" height="48"
+                            background-tint="#FFFFFF"
+                            hover-tint="#34465A"
+                            selected-tint="#376A99">
+                        <Button.Background>
+                            <SpriteBrush sprite="gameplay/towers/railgun/railgun-placement.sprite"/>
+                        </Button.Background>
+                    </Button>
+                    
+                    <Button width="48" height="48"
+                            background-tint="#FFFFFF"
+                            hover-tint="#34465A"
+                            selected-tint="#376A99">
+                        <Button.Background>
+                            <SpriteBrush sprite="gameplay\towers\missile-launcher\missile-launcher-placement.sprite"/>
+                        </Button.Background>
+                    </Button>
+                    
+                    -->
+
+                </ListBox>
+
+            </VerticalStackPanel>
+        </Border>
+    </Grid>
+</Ui>

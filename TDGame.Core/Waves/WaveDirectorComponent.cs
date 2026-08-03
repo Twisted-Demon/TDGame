@@ -47,9 +47,7 @@ public sealed class WaveDirectorComponent :
             return _waves[_waveIndex];
         }
     }
-
-    private UiFrame _uiPanel;
-
+    
     public override void OnCreated()
     {
         _waves.Add(AuthoredSpawnWaves.FirstWave);
@@ -62,9 +60,6 @@ public sealed class WaveDirectorComponent :
         _waves.Add(AuthoredSpawnWaves.EighthWave);
         _waves.Add(AuthoredSpawnWaves.NinthWave);
         _waves.Add(AuthoredSpawnWaves.TenthWave);
-
-        _uiPanel = Entity.Create("wave-counter")
-            .AttachComponent<UiFrame>().WithLayout("UI/tool-bar.xml");
 
         BeginIntermission(2f);
     }
@@ -171,9 +166,6 @@ public sealed class WaveDirectorComponent :
 
         Logger.Info(
             $"Wave {CurrentWaveNumber} started: {wave.Name}");
-
-        _uiPanel.Layout.GetRequired<UiText>("wave-counter")
-                .Text = $"Current Wave: {_waveIndex}";
     }
 
     private IEnumerator SpawnGroupCoroutine(SpawnGroup group)

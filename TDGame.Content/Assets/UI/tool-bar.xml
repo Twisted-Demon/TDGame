@@ -10,24 +10,4 @@
           anchor="TopCenter"
           horizontal-alignment="Center"
     />
-    
-    <Button id="test-button"
-            width="15%"
-            height="15%"
-            background-tint="#FFFFFF"
-            hover-tint="#D8E8FF"
-            focused-tint="#D8E8FF"
-            pressed-tint="#9FB9D4">
-        
-        <Button.Background>
-            <SolidColorBrush/>
-        </Button.Background>
-        
-        <Text   width="*"
-                height="*"
-                text="Test"
-                font="monogram"
-                font-size="16"
-                text-color="#000000FF"/>
-    </Button>
 </Ui>

@@ -27,6 +27,8 @@ public class TDGameScene : Scene<TDGameScene>
         
         MainCamera.SetTargetVerticalResolution(864);
         MainCamera.PixelsPerUnit = 96;
+        
+        RenderingOptions.UISamplerState = SamplerState.PointClamp;
 
         Window.WindowResized += (sender, args) =>
         {
@@ -36,6 +38,9 @@ public class TDGameScene : Scene<TDGameScene>
 
     private void SetUpManagers()
     {
+        CreateEntity("game ui manager")
+            .AttachComponent<GameUiManager>();
+        
         CreateEntity("game audio manager")
             .AttachComponent<GameAudioManager>();
 

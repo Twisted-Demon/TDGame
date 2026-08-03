@@ -9,7 +9,4 @@ var scene = new TDGameScene();
 
 Scene.SetNextScene(scene);
 
-Window.SetVsync(false);
-Window.SetFixedTimeStep(false);
-
 game.Run();

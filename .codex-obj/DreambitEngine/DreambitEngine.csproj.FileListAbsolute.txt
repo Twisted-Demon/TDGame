@@ -1,0 +1,14 @@
+C:\Repos\TDGame\.codex-obj\DreambitEngine\DreambitEngine.csproj.AssemblyReference.cache
+C:\Repos\TDGame\.codex-obj\DreambitEngine\DreambitEngine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Repos\TDGame\.codex-obj\DreambitEngine\DreambitEngine.AssemblyInfoInputs.cache
+C:\Repos\TDGame\.codex-obj\DreambitEngine\DreambitEngine.AssemblyInfo.cs
+C:\Repos\TDGame\.codex-obj\DreambitEngine\DreambitEngine.csproj.CoreCompileInputs.cache
+C:\Repos\TDGame\.codex-obj\DreambitEngine\DreambitEngine.sourcelink.json
+C:\Repos\TDGame\.codex-obj\DreambitEngine\Dreambit.36CD60F1.Up2Date
+C:\Repos\TDGame\.codex-obj\DreambitEngine\Dreambit.dll
+C:\Repos\TDGame\.codex-obj\DreambitEngine\refint\Dreambit.dll
+C:\Repos\TDGame\.codex-obj\DreambitEngine\Dreambit.pdb
+C:\Repos\TDGame\.codex-bin\DreambitEngine\Dreambit.deps.json
+C:\Repos\TDGame\.codex-bin\DreambitEngine\Dreambit.dll
+C:\Repos\TDGame\.codex-bin\DreambitEngine\Dreambit.pdb
+C:\Repos\TDGame\.codex-obj\DreambitEngine\ref\Dreambit.dll
