@@ -23,7 +23,8 @@ public sealed class Builder : ContentBuilder
 
         content.Exclude<WildcardRule>("*.xnb");
         content.IncludeCopy<WildcardRule>("*.xml");
-
+        content.IncludeCopy<WildcardRule>("*.pak");
+        
         return content;
     }
 }

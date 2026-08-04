@@ -1,5 +1,7 @@
 ﻿{
   "Id": "missile_launcher",
+  "DisplayName": "Missile Launcher",
+  "BuildCost": 450,
   "Blueprint": "gameplay/towers/missile-launcher/missile-launcher.blueprint",
   "PlacementSprite": "gameplay/towers/missile-launcher/missile-launcher-placement.sprite",
   "WeaponSoundCue": "gameplay/towers/missile-launcher/missile-launcher-fire.sound-cue"

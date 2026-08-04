@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UiComponent>
+    <ToggleButton id="card"
+                  width="104"
+                  height="118"
+                  padding="4"
+                  background-tint="#173B56FF"
+                  hover-tint="#57C7F2FF"
+                  pressed-tint="#F39A20FF"
+                  focused-tint="#A7E7FFFF"
+                  checked-tint="#FFD51FFF"
+                  disabled-tint="#555A5EFF">
+
+        <ToggleButton.Background>
+            <SolidColorBrush />
+        </ToggleButton.Background>
+
+        <Grid width="100%"
+              height="100%"
+              rows="*,Auto">
+
+            <!-- Tower portrait -->
+            <Border grid-row="0" grid-row-span="2"
+                    width="100%"
+                    height="100%"
+                    padding="3"
+                    background-tint="#279ED3FF">
+
+                <Border.Background>
+                    <SolidColorBrush />
+                </Border.Background>
+
+                <Texture id="portrait"
+                         width="100%"
+                         height="100%"
+                         sprite=""
+                         tint="#FFFFFFFF" />
+            </Border>
+        </Grid>
+    </ToggleButton>
+</UiComponent>

@@ -1,61 +1,84 @@
 <Ui>
-    <!-- 
-    Left is main game space, right is unit selection 
-    -->
     <Grid id="view-surface"
           width="100%" height="100%"
           columns="*,15%">
-
+        
+        <!-- The first column is deliberately empty. The world renders beneath it -->
+        
+        <!-- outer edge -->
         <Border grid-column="1"
                 width="100%" height="100%"
-                background-tint="#242832">
+                padding="4"
+                background-tint="#0a0a0a">
             <Border.Background>
                 <SolidColorBrush/>
             </Border.Background>
-
-            <VerticalStackPanel width="100%" height="100%"
-                                cross-alignment="Start"
-                                padding="6">
-
-                <Text width="100%" height="*"
-                      text="Unit Selection"
-                      font="monogram" font-size="18"
-                      text-color="#8FC7FF"
-                      horizontal-alignment="Left"/>
-
-                <ListBox id="unit-list"
-                         width="100%" height="100%"
-                         spacing="6"
-                         selected-index="0"
-                         background-tint="#11141A">
-                    <ListBox.Background>
-                        <SolidColorBrush/>
-                    </ListBox.Background>
-
-                    <!--
-                    <Button width="48" height="48"
-                            background-tint="#FFFFFF"
-                            hover-tint="#34465A"
-                            selected-tint="#376A99">
-                        <Button.Background>
-                            <SpriteBrush sprite="gameplay/towers/railgun/railgun-placement.sprite"/>
-                        </Button.Background>
-                    </Button>
+            
+            <!-- Main panel -->
+            <Border width="100%" height="100%"
+                     padding="8"
+                     background-tint="#292929">
+                <Border.Background>
+                    <SolidColorBrush/>
+                </Border.Background>
+                
+                <Grid width="100%" height="100%"
+                      rows="10%,*" spacing="4">
                     
-                    <Button width="48" height="48"
-                            background-tint="#FFFFFF"
-                            hover-tint="#34465A"
-                            selected-tint="#376A99">
-                        <Button.Background>
-                            <SpriteBrush sprite="gameplay\towers\missile-launcher\missile-launcher-placement.sprite"/>
-                        </Button.Background>
-                    </Button>
-                    
-                    -->
+                    <!-- Main title -->
+                    <Border grid-row="0"
+                            width="100%"
+                            height="100%"
+                            padding="4"
+                            background-tint="#0a0a0a">
+                        <Border.Background>
+                            <SolidColorBrush />
+                        </Border.Background>
 
-                </ListBox>
+                        <Border width="100%"
+                                height="100%"
+                                background-tint="#575757">
+                            <Border.Background>
+                                <SolidColorBrush />
+                            </Border.Background>
 
-            </VerticalStackPanel>
+                            <Text width="100%"
+                                  height="100%"
+                                  auto-resize-height="true"
+                                  multi-line="false"
+                                  text="Defenses"
+                                  font="monogram"
+                                  font-size="22"
+                                  text-color="#FFFFFFFF"
+                                  horizontal-alignment="Center" />
+                        </Border>
+                    </Border>
+
+                    <!-- Tower Cards -->
+                    <Border grid-row="1"
+                            width="100%"
+                            height="100%"
+                            padding="4"
+                            background-tint="#0a0a0a">
+                        <Border.Background>
+                            <SolidColorBrush />
+                        </Border.Background>
+
+                        <Border width="100%"
+                                height="100%"
+                                background-tint="#575757">
+                            <Border.Background>
+                                <SolidColorBrush />
+                            </Border.Background>
+
+                            <VerticalStackPanel id="tower-cards-stack" 
+                                                spacing="4" padding="4">
+                                
+                            </VerticalStackPanel>
+                        </Border>
+                    </Border>
+                </Grid>  
+            </Border>
         </Border>
     </Grid>
 </Ui>

@@ -57,7 +57,7 @@ public class TDGameScene : Scene<TDGameScene>
         ring.CreateOrbitalRing();
         
         CreateEntity("player manager")
-            .AttachComponent<PlayerManager>();
+            .AttachComponent<GameStateManager>();
         
         CreateEntity("wave director")
             .AttachComponent<WaveDirectorComponent>();
