@@ -19,7 +19,7 @@ public class MainMenuScene : Scene
         Window.SetAllowUserResizing(true);
         AmbientLight.Intensity = 1.0f;
         AmbientLight.Color = Color.White;
-        
+
         RenderingOptions.UISamplerState = SamplerState.PointClamp;
         RenderingOptions.SamplerState = SamplerState.PointClamp;
     }
@@ -29,7 +29,7 @@ public class MainMenuScene : Scene
         var menuFrame = Entity.Create("main menu ui")
             .AttachComponent<UiFrame>()
             .WithLayout("UI/main-menu-ui.xml");
-        
+
         var host = menuFrame.Layout;
 
         host.GetRequired<UiButton>("play-button").Clicked +=

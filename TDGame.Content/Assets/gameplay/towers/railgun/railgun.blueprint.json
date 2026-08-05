@@ -1,12 +1,12 @@
 {
     "name": "railgun",
-    "tags": ["defenses"],
+    "tags": ["tower"],
     "position": [0.0, 0.0, 0.0],
     "rotation": [0.0, 0.0, 0.0],
     "scale": [1.0, 1.0, 1.0],
     "components": [
         {
-            "type": "TDGame.Core.RailGunComponent, TDGame.Core",
+            "type": "TDGame.Core.RailGunComponent",
 
             "properties": {
                 "TargetingMode": "Nearest",
@@ -14,12 +14,23 @@
             }
         },
         {
-            "type": "Dreambit.ECS.SpriteAnimator, Dreambit",
+            "type": "Dreambit.ECS.SpriteAnimator",
             "properties": {
                 "AnimationPath": "gameplay/towers/railgun/railgun-idle.animation",
                 "PlayOnStart": true
             }
-        }   
+        },
+        {
+            "type": "Dreambit.ECS.BoxCollider",
+            "properties": {
+                "Bounds": [
+                    [-0.25,    -0.25],
+                    [ 0.25,    -0.25],
+                    [ 0.25,     0.25],
+                    [-0.25,     0.25]
+                ]
+            }
+        }
     ],
     "children": [
         {

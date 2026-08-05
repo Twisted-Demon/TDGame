@@ -1,7 +1,5 @@
 ﻿using System;
-using Dreambit;
 using Dreambit.ECS;
-using Microsoft.Xna.Framework.Input;
 
 namespace TDGame.Core;
 
@@ -13,15 +11,15 @@ public abstract class SpaceEnemyComponent : Component
 
     public float BaseHealth { get; set; } = 1f;
     public float BaseVelocity { get; set; } = 3f;
-    
+
     public float CurrentHealth { get; internal set; }
     public float MovementSpeed { get; internal set; }
-    
+
     public EnemyDefinition EnemyDefinition { get; internal set; }
 
     public override void OnCreated()
     {
-        Planet = SpaceDefenseManager.Instance.PlanetEntity;
+        Planet = SpaceTowersManager.Instance.PlanetEntity;
 
         if (Planet is null)
             throw new InvalidOperationException(
@@ -32,15 +30,15 @@ public abstract class SpaceEnemyComponent : Component
     {
         CurrentHealth = BaseHealth;
         MovementSpeed = BaseVelocity;
-        
+
         OnSpawnReady();
-        
+
         EnemyManager.Instance.MarkEnemyReady(this);
     }
 
     public override void OnDestroyed()
     {
-        if (!Component.IsNull(EnemyManager.Instance))
+        if (!IsNull(EnemyManager.Instance))
             EnemyManager.Instance.UnregisterEnemy(this);
     }
 
@@ -48,7 +46,7 @@ public abstract class SpaceEnemyComponent : Component
     {
         if (damage <= 0f)
             return;
-        
+
         CurrentHealth -= damage;
 
 
@@ -58,8 +56,5 @@ public abstract class SpaceEnemyComponent : Component
 
     protected virtual void OnSpawnReady()
     {
-        
     }
-    
-    
 }

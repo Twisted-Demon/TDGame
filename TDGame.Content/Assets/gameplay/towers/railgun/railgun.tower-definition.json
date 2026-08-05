@@ -4,5 +4,9 @@
   "BuildCost": 350,
   "Blueprint": "gameplay/towers/railgun/railgun.blueprint",
   "PlacementSprite": "gameplay/towers/railgun/railgun-placement.sprite",
-  "WeaponSoundCue": "gameplay/towers/railgun/railgun-fire.sound-cue"
+  "WeaponSoundCue": "gameplay/towers/railgun/railgun-fire.sound-cue",
+  
+  "IsAutomatic": true,
+  "BaseAttackRate": 1,
+  "BaseRange": 3.5
 }

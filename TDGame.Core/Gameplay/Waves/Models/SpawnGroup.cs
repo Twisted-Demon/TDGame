@@ -4,7 +4,7 @@ public class SpawnGroup
 {
     public required string EnemyId { get; init; }
     public required int Count { get; init; }
-    
+
     public required SpawnSector Sector { get; init; }
 
     public float SpawnInterval { get; init; } = 1f;

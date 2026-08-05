@@ -8,10 +8,9 @@ namespace TDGame.Core;
 [Require(typeof(ParticleSystemDrawer))]
 public class ParticleTest : Component
 {
-    [FromRequired]
-    public ParticleSystemDrawer PSystem { get; set; }
-
     private ParticleFxConfig _config;
+
+    [FromRequired] public ParticleSystemDrawer PSystem { get; set; }
 
     public override void OnCreated()
     {
@@ -33,7 +32,7 @@ public class ParticleTest : Component
             StartSpeed = new RangeF(0f, 0f),
 
             // Sizes: start small, grow via SizeOverLife
-            StartSize = new Range2(new(1f, 1f), new(1f, 1f)),
+            StartSize = new Range2(new Vector2(1f, 1f), new Vector2(1f, 1f)),
 
             // Randomized orientation and a little spin
             StartRotationDeg = new RangeF(0f, 360f),
@@ -43,10 +42,10 @@ public class ParticleTest : Component
             StartColor = new Color(110, 105, 100, 180),
 
             // Spawn jitter: spread around the ember bed a tiny bit
-            PositionJitter = new Range2(new(-16f, -20f), new(16f, 20f)),
+            PositionJitter = new Range2(new Vector2(-16f, -20f), new Vector2(16f, 20f)),
 
             // Velocity jitter: gentle sideways curls
-            VelocityJitter = new Range2(new(-0.5f, -0.5f), new(0.5f, 0.5f)),
+            VelocityJitter = new Range2(new Vector2(-0.5f, -0.5f), new Vector2(0.5f, 0.5f)),
 
             // “Buoyancy”: negative Y gravity for upward lift (MonoGame Y+ is down)
             Gravity = Vector2.Zero,
@@ -85,16 +84,16 @@ public class ParticleTest : Component
             ),
             Bursts = new List<Burst>
             {
-                new Burst
+                new()
                 {
                     Time = 5f,
                     Count = 250,
                     Cycles = 10000,
                     Interval = 0.0f
-                },
+                }
             }
         };
-        
+
         PSystem.Simulation.SetParticleFxConfig(_config);
         PSystem.Simulation.Emit();
     }

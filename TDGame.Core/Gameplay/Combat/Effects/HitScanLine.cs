@@ -7,16 +7,15 @@ namespace TDGame.Core;
 
 public class HitScanLine : DrawableComponent<HitScanLine>
 {
+    private float _lifeTimeTick;
+
+    private float _opacity = 1.0f;
     public override RectangleF Bounds => Scene.MainCamera.BoundsF;
-    
+
     public Vector3 Start { get; private set; }
     public Vector3 End { get; private set; }
     public Color Color { get; private set; }
     public float LifeTime { get; private set; }
-
-    private float _opacity = 1.0f;
-
-    private float _lifeTimeTick;
 
     public static HitScanLine Create(Vector3 start, Vector3 end, Color color, float lifeTime)
     {
@@ -29,14 +28,13 @@ public class HitScanLine : DrawableComponent<HitScanLine>
         hitScanLine.LifeTime = lifeTime;
 
         hitScanLine._lifeTimeTick = lifeTime;
-        
+
         return hitScanLine;
     }
 
     public override void OnAddedToEntity()
     {
         var ch = CoroutineService.StartCoroutine(FadeOut());
-        
     }
 
     private IEnumerator FadeOut()
@@ -57,6 +55,7 @@ public class HitScanLine : DrawableComponent<HitScanLine>
 
     protected override void OnDraw()
     {
-        Dreambit.Core.SpriteBatch.DrawLine(Start, End, Color * _opacity, 1f * Scene.MainCamera.WorldUnitsPerTexturePixel);
+        Dreambit.Core.SpriteBatch.DrawLine(Start, End, Color * _opacity,
+            1f * Scene.MainCamera.WorldUnitsPerTexturePixel);
     }
 }

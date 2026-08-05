@@ -6,24 +6,52 @@ namespace TDGame.Core;
 
 public sealed class SpawnSector
 {
+    public static SpawnSector EastSector = new(
+        12f,
+        15f,
+        0f,
+        15f
+    );
+
+    public static SpawnSector SouthSector = new(
+        12f,
+        15f,
+        90f,
+        105f
+    );
+
+    public static SpawnSector WestSector = new(
+        12f,
+        15f,
+        180f,
+        195f
+    );
+
+    public static SpawnSector NorthSector = new(
+        12f,
+        15f,
+        270f,
+        285f
+    );
+
     public SpawnSector(
         float minimumRadius,
         float maximumRadius,
         float minimumAngleDegrees,
         float maximumAngleDegrees)
     {
-        if(minimumAngleDegrees < 0f)
+        if (minimumAngleDegrees < 0f)
             throw new ArgumentOutOfRangeException(nameof(minimumAngleDegrees));
-        
-        if(maximumAngleDegrees < minimumAngleDegrees)
+
+        if (maximumAngleDegrees < minimumAngleDegrees)
             throw new ArgumentOutOfRangeException(nameof(maximumAngleDegrees));
-        
+
         MinimumRadius = minimumRadius;
         MaximumRadius = maximumRadius;
         MinimumAngleDegrees = minimumAngleDegrees;
         MaximumAngleDegrees = maximumAngleDegrees;
     }
-    
+
     public float MinimumRadius { get; }
 
     public float MaximumRadius { get; }
@@ -41,35 +69,9 @@ public sealed class SpawnSector
         var angleDegrees = Random.Shared.NextFloat(
             MinimumAngleDegrees,
             MaximumAngleDegrees);
-        
+
         var angleRadians = Mathf.Radians(angleDegrees);
-        
+
         return PolarMath.ToWorldPosition(center, radius, angleRadians);
     }
-
-    public static SpawnSector EastSector = new SpawnSector(
-        minimumRadius: 12f,
-        maximumRadius: 15f,
-        minimumAngleDegrees: 0f,
-        maximumAngleDegrees: 15f
-    );
-    public static SpawnSector SouthSector = new SpawnSector(
-        minimumRadius: 12f,
-        maximumRadius: 15f,
-        minimumAngleDegrees: 90f,
-        maximumAngleDegrees: 105f
-    );
-    public static SpawnSector WestSector = new SpawnSector(
-        minimumRadius: 12f,
-        maximumRadius: 15f,
-        minimumAngleDegrees: 180f,
-        maximumAngleDegrees: 195f
-    );
-    
-    public static SpawnSector NorthSector = new SpawnSector(
-        minimumRadius: 12f,
-        maximumRadius: 15f,
-        minimumAngleDegrees: 270f,
-        maximumAngleDegrees: 285f
-    );
 }

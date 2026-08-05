@@ -1,7 +1,4 @@
-﻿using System;
-using Dreambit;
-using Dreambit.ECS;
-using Microsoft.Xna.Framework;
+﻿using Dreambit;
 
 namespace TDGame.Core;
 
@@ -13,7 +10,7 @@ public class SpaceDiverComponent : SpaceEnemyComponent
     protected override void OnSpawnReady()
     {
         var planetCenter = Planet.Transform.WorldPosition2D;
-        
+
         var spawnPosition = Transform.WorldPosition2D;
 
         const float impactRadius = 0.5f;
@@ -27,19 +24,19 @@ public class SpaceDiverComponent : SpaceEnemyComponent
             orbitDirection,
             turns);
     }
-    
+
     public override void OnUpdate()
     {
         if (_path is null)
             return;
-        
+
         SeekToPlanet();
     }
 
     private void SeekToPlanet()
     {
         _path.Update(MovementSpeed);
-        
+
         Transform.Position2D = _path.Position;
         Transform.Rotation2D = +_path.Forward.Angle();
 

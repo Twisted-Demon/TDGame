@@ -8,36 +8,35 @@ namespace TDGame.Core;
 
 public class WorldRingDrawer : DrawableComponent
 {
-    public override RectangleF Bounds => GetBounds();
-    
-    private static readonly Vector2 PixelOrigin = new Vector2(0.5f, 0.5f);
-
-    private Texture2D WhitePixel => SpriteBatchExtensions.PixelTexture;
-    
-    private EffectParameter _quadSizeWorldParameter;
-    private EffectParameter _radiusWorldParameter;
-    private EffectParameter _thicknessWorldParameter;
-    private EffectParameter _ringColorParameter;
-    private EffectParameter _softnessWorldParameter;
-    private EffectParameter _opacityParameter;
+    private static readonly Vector2 PixelOrigin = new(0.5f, 0.5f);
     private EffectParameter _dashCountParameter;
     private EffectParameter _dashFillParameter;
     private EffectParameter _dashOffsetParameter;
+    private EffectParameter _opacityParameter;
+
+    private EffectParameter _quadSizeWorldParameter;
+    private EffectParameter _radiusWorldParameter;
+    private EffectParameter _ringColorParameter;
     private EffectParameter _roundDashCaps;
+    private EffectParameter _softnessWorldParameter;
+    private EffectParameter _thicknessWorldParameter;
+    public override RectangleF Bounds => GetBounds();
+
+    private Texture2D WhitePixel => SpriteBatchExtensions.PixelTexture;
 
     public float Radius { get; set; } = 64.0f;
     public float Thickness { get; set; } = 1.0f;
     public Color Color { get; set; } = Color.White;
     public float Opacity { get; set; } = 1.0f;
-    public float Softness { get; set; } = 0f;
-    public float DashCount { get; set; } = 0f;
+    public float Softness { get; set; }
+    public float DashCount { get; set; }
     public float DashFill { get; set; } = 1f;
     public float DashOffsetRadians { get; set; } = 0f;
 
     public override void OnCreated()
     {
         Effect = Resources.LoadAsset<Effect>("Effects/WorldRing");
-        
+
         _quadSizeWorldParameter =
             GetRequiredParameter("QuadSizeWorld");
 
@@ -64,12 +63,12 @@ public class WorldRingDrawer : DrawableComponent
 
         _dashOffsetParameter =
             GetRequiredParameter("DashOffsetRadians");
-        
+
         _roundDashCaps = GetRequiredParameter("RoundDashCaps");
 
         SpriteBatchExtensions.EnsurePixelTextureExists(Dreambit.Core.GraphicsDeviceManager.GraphicsDevice);
     }
-    
+
     private EffectParameter GetRequiredParameter(string name)
     {
         return Effect.Parameters[name]
@@ -80,10 +79,8 @@ public class WorldRingDrawer : DrawableComponent
     protected override void OnDraw()
     {
         if (Radius < 0.0f)
-        {
             throw new ArgumentOutOfRangeException(
                 nameof(Radius), "Radius must be greater than zero.");
-        }
 
         if (Thickness <= 0.0f)
             return;
@@ -93,16 +90,16 @@ public class WorldRingDrawer : DrawableComponent
         DashCount = Mathf.Max(DashCount, 0.0f);
         DashFill = Mathf.Clamp(DashFill, 0.0f, 1.0f);
 
-        float halfThickness = Thickness * 0.5f;
+        var halfThickness = Thickness * 0.5f;
 
-        float twoPixelsInWorldUnits = 2f / Scene.MainCamera.Scale;
-        
-        float padding = Mathf.Max(Softness, twoPixelsInWorldUnits);
-        
-        float halfQuadSizeWorld = Radius + halfThickness + padding;
+        var twoPixelsInWorldUnits = 2f / Scene.MainCamera.Scale;
 
-        float quadSizeWorld = halfQuadSizeWorld * 2f;
-        
+        var padding = Mathf.Max(Softness, twoPixelsInWorldUnits);
+
+        var halfQuadSizeWorld = Radius + halfThickness + padding;
+
+        var quadSizeWorld = halfQuadSizeWorld * 2f;
+
         _quadSizeWorldParameter.SetValue(
             new Vector2(quadSizeWorld, quadSizeWorld));
 
@@ -115,18 +112,18 @@ public class WorldRingDrawer : DrawableComponent
         _dashFillParameter.SetValue(DashFill);
         _dashOffsetParameter.SetValue(DashOffsetRadians);
         _roundDashCaps.SetValue(1f);
-        
+
         Dreambit.Core.SpriteBatch.Draw(
-                texture: WhitePixel,
-                position: Transform.WorldPosition2D,
-                sourceRectangle: null,
-                color: Color,
-                rotation: 0f,
-                origin: PixelOrigin,
-                scale: new Vector2(quadSizeWorld, quadSizeWorld),
-                effects: SpriteEffects.None,
-                layerDepth: 0f
-            );
+            WhitePixel,
+            Transform.WorldPosition2D,
+            null,
+            Color,
+            0f,
+            PixelOrigin,
+            new Vector2(quadSizeWorld, quadSizeWorld),
+            SpriteEffects.None,
+            0f
+        );
     }
 
     private RectangleF GetBounds()
@@ -135,7 +132,7 @@ public class WorldRingDrawer : DrawableComponent
 
         var pivotOffset = PivotHelper.GetRelativePivot(PivotType.Center);
         pivotToUse -= new Vector2(pivotOffset.X * Radius, pivotOffset.Y * Radius);
-        
+
         var bounds = new RectangleF(
             pivotToUse.X,
             pivotToUse.Y,

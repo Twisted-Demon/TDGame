@@ -71,10 +71,10 @@
                                 <SolidColorBrush />
                             </Border.Background>
 
-                            <VerticalStackPanel id="tower-cards-stack" 
+                            <ListBox id="tower-cards-stack" 
                                                 spacing="4" padding="4">
                                 
-                            </VerticalStackPanel>
+                            </ListBox>
                         </Border>
                     </Border>
                 </Grid>  

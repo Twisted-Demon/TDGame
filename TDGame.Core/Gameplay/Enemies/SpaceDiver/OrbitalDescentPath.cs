@@ -7,29 +7,21 @@ namespace TDGame.Core;
 public class OrbitalDescentPath
 {
     private const float Tau = Mathf.Pi * 2f;
+    private readonly float _angleTravel;
+    private readonly float _endRadius;
+    private readonly float _logRadiusRatio;
 
     private readonly Vector2 _planetCenter;
 
-    private readonly float _startRadius;
-    private readonly float _endRadius;
-
-    private readonly float _startAngle;
-    private readonly float _angleTravel;
-
     //used for evaluating logarithmic spiral
     private readonly float _radiusRatio;
-    private readonly float _logRadiusRatio;
 
-    private float _progress;
+    private readonly float _startAngle;
 
-    public float Progress => _progress;
-    public bool IsComplete => _progress >= 1f;
-
-    public Vector2 Position => Evaluate(_progress);
-    public Vector2 Forward => EvaluateForward(_progress);
+    private readonly float _startRadius;
 
     /// <summary>
-    /// Class Constructor
+    ///     Class Constructor
     /// </summary>
     /// <param name="planetCenter">Position of the planet</param>
     /// <param name="spawnPosition">Start of the descent path</param>
@@ -44,7 +36,7 @@ public class OrbitalDescentPath
         float turns)
     {
         _planetCenter = planetCenter;
-        
+
         var spawnOffset = spawnPosition - planetCenter;
 
         _startRadius = spawnOffset.Length();
@@ -58,36 +50,43 @@ public class OrbitalDescentPath
         orbitDirection = orbitDirection >= 0 ? 1 : -1;
 
         _angleTravel = Tau * turns * orbitDirection;
-        
+
         _radiusRatio = _endRadius / _startRadius;
         _logRadiusRatio = MathF.Log(_radiusRatio);
     }
+
+    public float Progress { get; private set; }
+
+    public bool IsComplete => Progress >= 1f;
+
+    public Vector2 Position => Evaluate(Progress);
+    public Vector2 Forward => EvaluateForward(Progress);
 
     public void Update(float movementSpeed)
     {
         if (IsComplete)
             return;
 
-        var pathUnitsPerProgress = EvaluateDerivativeLength(_progress);
+        var pathUnitsPerProgress = EvaluateDerivativeLength(Progress);
 
         if (pathUnitsPerProgress <= Mathf.Epsilon)
         {
-            _progress = 1f;
+            Progress = 1f;
             return;
         }
 
-        _progress += movementSpeed * Time.DeltaTime / pathUnitsPerProgress;
-        _progress = Mathf.Clamp(_progress, 0f, 1f);
+        Progress += movementSpeed * Time.DeltaTime / pathUnitsPerProgress;
+        Progress = Mathf.Clamp(Progress, 0f, 1f);
     }
 
-    
+
     private Vector2 Evaluate(float progress)
     {
         progress = Mathf.Clamp(progress, 0f, 1f);
 
         var radius = EvaluateRadius(progress);
         var angle = EvaluateAngle(progress);
-        
+
         var radialDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
         return _planetCenter + radialDirection * radius;
     }
@@ -111,17 +110,17 @@ public class OrbitalDescentPath
     {
         return _startRadius * Mathf.Pow(_radiusRatio, progress);
     }
-    
+
     private float EvaluateDerivativeLength(float progress)
     {
         return EvaluateDerivative(progress).Length();
     }
-    
+
     private Vector2 EvaluateDerivative(float progress)
     {
         var radius = EvaluateRadius(progress);
         var angle = EvaluateAngle(progress);
-        
+
         var radialDirection = new Vector2(
             MathF.Cos(angle),
             MathF.Sin(angle));

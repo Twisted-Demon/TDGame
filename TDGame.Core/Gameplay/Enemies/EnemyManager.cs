@@ -12,11 +12,10 @@ public class EnemyManager : SingletonComponent<EnemyManager>
         new(StringComparer.OrdinalIgnoreCase);
 
     private readonly HashSet<SpaceEnemyComponent> _pendingEnemies = [];
-    private readonly HashSet<SpaceEnemyComponent> _activeEnemies = [];
 
-    public HashSet<SpaceEnemyComponent> ActiveEnemies => _activeEnemies;
-    
-    public bool HasLivingOrPendingEnemies => _activeEnemies.Count > 0 ||
+    public HashSet<SpaceEnemyComponent> ActiveEnemies { get; } = [];
+
+    public bool HasLivingOrPendingEnemies => ActiveEnemies.Count > 0 ||
                                              _pendingEnemies.Count > 0;
 
     public override void OnCreated()
@@ -27,11 +26,9 @@ public class EnemyManager : SingletonComponent<EnemyManager>
     public SpaceEnemyComponent SpawnEnemy(string enemyId, Vector3 spawnPosition)
     {
         if (!_definitions.TryGetValue(enemyId, out var definition))
-        {
             throw new ArgumentException(
                 $"No enemy definition is registered with ID '{enemyId}'.",
                 nameof(enemyId));
-        }
 
         var entity = Scene.CreateEntity(definition.Blueprint, createAt: spawnPosition);
 
@@ -40,16 +37,16 @@ public class EnemyManager : SingletonComponent<EnemyManager>
         if (enemy is null)
         {
             Entity.Destroy(entity);
-            
+
             throw new InvalidOperationException(
                 $"Enemy blueprint '{enemyId}' does not contain a " +
                 $"{nameof(SpaceEnemyComponent)}.");
         }
 
-        enemy.EnemyDefinition =  definition;
-        
+        enemy.EnemyDefinition = definition;
+
         _pendingEnemies.Add(enemy);
-        
+
         return enemy;
     }
 
@@ -59,18 +56,18 @@ public class EnemyManager : SingletonComponent<EnemyManager>
             return;
 
         _pendingEnemies.Remove(enemy);
-        _activeEnemies.Add(enemy);
+        ActiveEnemies.Add(enemy);
     }
-    
+
     public void UnregisterEnemy(SpaceEnemyComponent enemy)
     {
         if (enemy is null)
             return;
 
         _pendingEnemies.Remove(enemy);
-        _activeEnemies.Remove(enemy);
+        ActiveEnemies.Remove(enemy);
     }
-    
+
     public void DestroyEnemy(SpaceEnemyComponent enemy)
     {
         if (enemy is null || Entity.IsDestroyed(enemy.Entity))
@@ -89,10 +86,8 @@ public class EnemyManager : SingletonComponent<EnemyManager>
         ArgumentNullException.ThrowIfNull(definition);
 
         if (!_definitions.TryAdd(definition.Id, definition))
-        {
             throw new InvalidOperationException(
                 $"Enemy definition '{definition.Id}' is already registered.");
-        }
     }
 
     private void RegisterDefinition(string definitionPath)

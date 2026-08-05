@@ -4,5 +4,9 @@
   "BuildCost": 450,
   "Blueprint": "gameplay/towers/missile-launcher/missile-launcher.blueprint",
   "PlacementSprite": "gameplay/towers/missile-launcher/missile-launcher-placement.sprite",
-  "WeaponSoundCue": "gameplay/towers/missile-launcher/missile-launcher-fire.sound-cue"
+  "WeaponSoundCue": "gameplay/towers/missile-launcher/missile-launcher-fire.sound-cue",
+  
+  "IsAutomatic": true,
+  "BaseAttackRate": 1,
+  "BaseRange": 5
 }

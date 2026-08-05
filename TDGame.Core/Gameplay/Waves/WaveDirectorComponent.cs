@@ -3,29 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Dreambit;
 using Dreambit.ECS;
-using Dreambit.UI;
 
 namespace TDGame.Core;
 
 public sealed class WaveDirectorComponent :
     SingletonComponent<WaveDirectorComponent>
 {
-    private enum WaveState
-    {
-        Intermission,
-        Spawning,
-        WaitingForEnemies,
-        Completed
-    }
-
     private readonly List<WavePlan> _waves = [];
+
+    private bool _intermissionCoroutineRunning;
+    private int _remainingGroupsInWave;
 
     private WaveState _state;
 
     private int _waveIndex = -1;
-    private int _remainingGroupsInWave;
-
-    private bool _intermissionCoroutineRunning;
 
     public int CurrentWaveNumber => _waveIndex + 1;
 
@@ -38,16 +29,14 @@ public sealed class WaveDirectorComponent :
         get
         {
             if (!HasCurrentWave)
-            {
                 throw new InvalidOperationException(
                     $"There is no current wave. Wave index: {_waveIndex}, " +
                     $"configured waves: {_waves.Count}.");
-            }
 
             return _waves[_waveIndex];
         }
     }
-    
+
     public override void OnCreated()
     {
         _waves.Add(AuthoredSpawnWaves.FirstWave);
@@ -159,10 +148,8 @@ public sealed class WaveDirectorComponent :
         _state = WaveState.Spawning;
 
         foreach (var group in wave.Groups)
-        {
             CoroutineService.StartCoroutine(
                 SpawnGroupCoroutine(group));
-        }
 
         Logger.Info(
             $"Wave {CurrentWaveNumber} started: {wave.Name}");
@@ -195,7 +182,7 @@ public sealed class WaveDirectorComponent :
 
     private static void SpawnEnemy(SpawnGroup group)
     {
-        var planetCenter = SpaceDefenseManager.Instance
+        var planetCenter = SpaceTowersManager.Instance
             .PlanetEntity
             .Transform
             .WorldPosition2D;
@@ -212,5 +199,13 @@ public sealed class WaveDirectorComponent :
         _state = WaveState.Completed;
 
         Logger.Info("All configured waves completed.");
+    }
+
+    private enum WaveState
+    {
+        Intermission,
+        Spawning,
+        WaitingForEnemies,
+        Completed
     }
 }

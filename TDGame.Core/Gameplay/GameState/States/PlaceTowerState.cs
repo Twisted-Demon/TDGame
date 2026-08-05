@@ -1,20 +1,25 @@
 ﻿using Dreambit;
 using Dreambit.ECS;
-using Microsoft.Xna.Framework;
+using Dreambit.Events;
+using Microsoft.Xna.Framework.Input;
 
 namespace TDGame.Core;
 
+//TODO: check if we are nearby
 public class PlaceTowerState : State
 {
-    private Entity _placementIndicator;
     private SpriteDrawer _placementDrawer;
-    protected new GameStateBlackboard Blackboard => (GameStateBlackboard)Fsm.Blackboard;
+    private Entity _placementIndicator;
+    private new GameStateBlackboard Blackboard => (GameStateBlackboard)Fsm.Blackboard;
 
     public override void OnInitialize()
     {
+        RegisterTransitions();
+        
         _placementIndicator = Entity.Create("placement-indicator");
         _placementDrawer = _placementIndicator.AttachComponent<SpriteDrawer>();
-        
+        _placementDrawer.WithOpacity(0.25f).WithPivot(PivotType.Center);
+
         _placementIndicator.Enabled = false;
         _placementDrawer.Enabled = false;
     }
@@ -24,18 +29,16 @@ public class PlaceTowerState : State
         _placementIndicator.Enabled = true;
         _placementDrawer.Enabled = true;
         
-        var towerDefinition = Blackboard.PlacementTowerDefinition;
-        _placementDrawer.Sprite = towerDefinition.PlacementSprite;
-        
-        var mousePos = Scene.Instance.MainCamera.ScreenToWorld(Input.GetMousePosition());
+        UpdatePlacementIndicatorSprite();
         var ring = OrbitalRingManager.Instance.GetFirstRing();
-        
-        _placementIndicator.Transform.Position2D = PositionOnRing(ring, mousePos);
+
+        _placementIndicator.Transform.Position2D = ring.MousePositionOnRing();
     }
 
     public override void OnExecute()
     {
-        UpdatePlacementIndicator();
+        UpdatePlacementIndicatorSprite();
+        UpdatePlacementIndicatorPosition();
     }
 
     public override void OnEnd()
@@ -43,26 +46,64 @@ public class PlaceTowerState : State
         _placementIndicator.Enabled = false;
         _placementDrawer.Enabled = false;
     }
-
-    private void UpdatePlacementIndicator()
+    
+    public override bool Reason()
     {
-        //get our mouse position and see which rings are nearby
-        var mousePos = Scene.Instance.MainCamera.ScreenToWorld(Input.GetMousePosition());
-        var ring = OrbitalRingManager.Instance.GetNearbyOrbitalRingAtPoint(mousePos);
+        if (Input.RightPressed() || Input.IsKeyPressed(Keys.Escape))
+        {
+            Fsm.SetNextState<BrowseInteractionState>();
+            return false;
+        }
 
-        if (ring is null) return; // return if none are nearby
-        
-        _placementIndicator.Transform.Position2D = PositionOnRing(ring, mousePos);
+        return true;
     }
 
-    private Vector2 PositionOnRing(OrbitalRing ring, Vector2 mousePos)
+    private void UpdatePlacementIndicatorSprite()
     {
-        var planetPosition = SpaceDefenseManager.Instance.PlanetEntity.Transform.WorldPosition2D;
-        var radius = ring.Radius;
-        var angle = Mathf.AngleBetweenVectors(planetPosition, mousePos);
-        
-        var finalPos = PolarMath.ToWorldPosition(planetPosition, radius, angle);
-        
-        return finalPos;
+        var towerDefinition = Blackboard.TowerDefinitionForPlacement.Value;
+        _placementDrawer.Sprite = towerDefinition.PlacementSprite;
+    }
+
+    private void UpdatePlacementIndicatorPosition()
+    {
+        //get our mouse position and see which rings are nearby
+
+        var ring = OrbitalRingManager.Instance.GetNearbyOrbitalRingFromMouse();
+
+        if (ring is null) return; // return if none are nearby
+
+        var positionOnRing = ring.MousePositionOnRing();
+
+        _placementIndicator.Transform.WorldPosition2D = positionOnRing;
+
+        if (Input.LeftPressed())
+        {
+            var towerDefinition = Blackboard.TowerDefinitionForPlacement.Value;
+
+            var tower = SpaceTowersManager.Instance.SpawnTower(
+                towerDefinition.Id,
+                positionOnRing.ToVector3(),
+                ring);
+
+            Blackboard.TowerDefinitionForPlacement.Value = null;
+            
+            var towerPlacedEventArgs = new TowerPlacedEventArgs
+            {
+                Tower = tower
+            };
+            EventBus.Instance.Invoke(TowerPlacedEvent.Instance, towerPlacedEventArgs);
+            Fsm.Trigger<TowerPlacedEvent>();
+        }
+    }
+
+    private void RegisterTransitions()
+    {
+        Fsm.AddTransition<PlaceTowerState, BrowseInteractionState>(fsm =>
+        {
+            var eventOccurred = fsm.TryConsumeEvent<TowerPlacedEvent>();
+            var isNull = Blackboard.TowerDefinitionForPlacement.Value == null;
+
+            return eventOccurred && isNull;
+        });
     }
 }

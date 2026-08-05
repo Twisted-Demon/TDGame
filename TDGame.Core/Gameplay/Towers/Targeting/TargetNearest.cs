@@ -25,7 +25,7 @@ public class TargetNearest : ITargetingBehavior
             var enemy = collider.Entity.GetComponent<SpaceEnemyComponent>();
 
             if (enemy is null || Entity.IsDestroyed(enemy.Entity)) continue;
-            
+
             var defensePosition = self.WorldPosition;
             var enemyPosition = enemy.Transform.WorldPosition;
 
@@ -40,7 +40,7 @@ public class TargetNearest : ITargetingBehavior
                 nearestDistanceSquared = distanceSquared;
             }
         }
-        
+
         return nearest;
     }
 }

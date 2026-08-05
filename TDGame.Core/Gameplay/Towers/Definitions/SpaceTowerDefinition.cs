@@ -10,4 +10,8 @@ public class SpaceTowerDefinition : DreambitAsset
     public required EntityBlueprint Blueprint { get; init; }
     public required Sprite PlacementSprite { get; init; }
     public required SoundCue WeaponSoundCue { get; init; }
+    
+    public required bool IsAutomatic { get; init; }
+    public required float BaseAttackRate { get; init; }
+    public required float BaseRange { get; init; }
 }

@@ -1,6 +1,6 @@
 {
     "name": "missile launcher",
-    "tags": ["defenses"],
+    "tags": ["tower"],
     "position": [0.0, 0.0, 0.0],
     "rotation": [0.0, 0.0, 0.0],
     "scale": [1.0, 1.0, 1.0],
@@ -8,8 +8,7 @@
         {
             "type": "TDGame.Core.MissileLauncherComponent",
             "properties": {
-                "TargetingMode" : "Nearest",
-                "BaseRange": 5
+                "TargetingMode" : "Nearest"
             }
         },
         {
@@ -17,6 +16,17 @@
             "properties": {
                 "AnimationPath": "gameplay/towers/missile-launcher/missile-launcher-idle.animation",
                 "PlayOnStart": true
+            }
+        },
+        {
+            "type": "Dreambit.ECS.BoxCollider",
+            "properties": {
+                "Bounds": [
+                    [-0.166,    -0.166],
+                    [ 0.166,    -0.166],
+                    [ 0.166,     0.166],
+                    [-0.166,     0.166]
+                ]
             }
         }
     ],

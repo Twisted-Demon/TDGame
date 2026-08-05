@@ -2,41 +2,41 @@
 
 public static class AuthoredSpawnWaves
 {
-    public static readonly WavePlan FirstWave = new WavePlan
+    public static readonly WavePlan FirstWave = new()
     {
         Name = "First Contact",
         IntermissionAfterWave = 1f,
-        Groups = 
+        Groups =
         [
-            new SpawnGroup()
+            new SpawnGroup
             {
                 EnemyId = "space_diver",
                 Count = 24,
                 SpawnInterval = 0.75f,
-                
+
                 Sector = SpawnSector.EastSector
             }
         ]
     };
-    
-    public static readonly WavePlan SecondWave = new WavePlan
+
+    public static readonly WavePlan SecondWave = new()
     {
         Name = "Opposite Side",
         IntermissionAfterWave = 1f,
-        Groups = 
+        Groups =
         [
-            new SpawnGroup()
+            new SpawnGroup
             {
                 EnemyId = "space_diver",
                 Count = 24,
                 SpawnInterval = 0.5f,
-                
+
                 Sector = SpawnSector.WestSector
             }
         ]
     };
 
-    public static readonly WavePlan ThirdWave = new WavePlan
+    public static readonly WavePlan ThirdWave = new()
     {
         Name = "Two Fronts",
         IntermissionAfterWave = 1f,
@@ -60,8 +60,8 @@ public static class AuthoredSpawnWaves
             }
         ]
     };
-    
-    public static readonly WavePlan FourthWave = new WavePlan
+
+    public static readonly WavePlan FourthWave = new()
     {
         Name = "Three Fronts",
         IntermissionAfterWave = 1f,
@@ -95,7 +95,7 @@ public static class AuthoredSpawnWaves
         ]
     };
 
-    public static readonly WavePlan FifthWave = new WavePlan
+    public static readonly WavePlan FifthWave = new()
     {
         Name = "Southern Approach",
         IntermissionAfterWave = 1.5f,
@@ -114,7 +114,7 @@ public static class AuthoredSpawnWaves
         ]
     };
 
-    public static readonly WavePlan SixthWave = new WavePlan
+    public static readonly WavePlan SixthWave = new()
     {
         Name = "Four Corners",
         IntermissionAfterWave = 1.5f,
@@ -157,7 +157,7 @@ public static class AuthoredSpawnWaves
         ]
     };
 
-    public static readonly WavePlan SeventhWave = new WavePlan
+    public static readonly WavePlan SeventhWave = new()
     {
         Name = "Clockwise Pressure",
         IntermissionAfterWave = 1.5f,
@@ -201,7 +201,7 @@ public static class AuthoredSpawnWaves
         ]
     };
 
-    public static readonly WavePlan EighthWave = new WavePlan
+    public static readonly WavePlan EighthWave = new()
     {
         Name = "False Opening",
         IntermissionAfterWave = 2f,
@@ -246,7 +246,7 @@ public static class AuthoredSpawnWaves
         ]
     };
 
-    public static readonly WavePlan NinthWave = new WavePlan
+    public static readonly WavePlan NinthWave = new()
     {
         Name = "No Safe Side",
         IntermissionAfterWave = 2f,
@@ -289,7 +289,7 @@ public static class AuthoredSpawnWaves
         ]
     };
 
-    public static readonly WavePlan TenthWave = new WavePlan
+    public static readonly WavePlan TenthWave = new()
     {
         Name = "Final Orbit",
         IntermissionAfterWave = 2f,

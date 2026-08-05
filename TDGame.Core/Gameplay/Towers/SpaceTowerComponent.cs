@@ -5,28 +5,25 @@ using Microsoft.Xna.Framework;
 
 namespace TDGame.Core;
 
+[Require(typeof(FSM))]
 public class SpaceTowerComponent : Component
 {
     public new TDGameScene Scene => (TDGameScene)base.Scene;
     
-    public SpaceTowerDefinition Definition { get; set; }
-    
-    public float BaseRange { get; init; } = 3.5f;
-    public float BaseAttackRate { get; init; } = 1.0f;
+    [FromRequired]
+    public FSM Fsm { get; set; }
+    public SpaceTowerBlackboard Blackboard;
+    public OrbitalRing ParentRing { get; set; }
 
-    public float CurrentRange => BaseRange;
-    public float CurrentAttackRate => BaseAttackRate;
-    
-    public bool IsAutomatic { get; init; }
-    
     protected SpaceEnemyComponent Target { get; set; }
-    
-    public TargetingMode TargetingMode { get; set; } =  TargetingMode.Nearest;
+
+    public TargetingMode TargetingMode { get; set; } = TargetingMode.Nearest;
+
     public ITargetingBehavior TargetingBehavior
     {
         get
         {
-            switch(TargetingMode)
+            switch (TargetingMode)
             {
                 case TargetingMode.Nearest:
                     return new TargetNearest();
@@ -40,45 +37,45 @@ public class SpaceTowerComponent : Component
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
             return null;
         }
     }
-    
-    private Vector2 _attackOrigin =  Vector2.Zero;
-    public Vector2 AttackOrigin
+
+    public override void OnCreated()
     {
-        get => _attackOrigin;
-        set
-        {
-            var x = value.X / Scene.MainCamera.PixelsPerUnit;
-            var y = value.Y / Scene.MainCamera.PixelsPerUnit;
-            
-            _attackOrigin = new Vector2(x, y);
-        }
+        SetUpFsm();
     }
-    
 
     public override void OnAddedToEntity()
     {
         OnSpawnReady();
 
-        SpaceDefenseManager.Instance.MarkTowerReady(this);
-    }
-    
-    public override void OnUpdate()
-    {
-        UpdateWeapon();
+        SpaceTowersManager.Instance.MarkTowerReady(this);
     }
 
     public override void OnDestroyed()
     {
-        if (!Component.IsNull(SpaceDefenseManager.Instance))
-            SpaceDefenseManager.Instance.UnregisterTower(this);
+        if (!IsNull(SpaceTowersManager.Instance))
+            SpaceTowersManager.Instance.UnregisterTower(this);
+    }
+
+    private void SetUpFsm()
+    {
+        Blackboard = Fsm.SetBlackboard<SpaceTowerBlackboard>();
+        
+        Fsm.Register(
+            typeof(TowerReadyState),
+            typeof(TowerRepositioningState));
+
+        Fsm.SetDefaultState<TowerReadyState>();
+        Fsm.GoToDefault();
     }
 
     public SpaceTowerComponent WithDefinition(SpaceTowerDefinition definition)
     {
-        Definition = definition;
+        Blackboard.TowerDefinition = definition;
+        
         return this;
     }
 
@@ -89,29 +86,13 @@ public class SpaceTowerComponent : Component
         var enemyPos = Target.Transform.WorldPosition2D;
         Transform.LookAt2D(enemyPos);
     }
-
-    private float _attackTimer = 0.0f;
-    private void UpdateWeapon()
-    {
-        if (TargetingBehavior is null) return;
-
-        _attackTimer -= Time.DeltaTime;
-
-        if (_attackTimer <= 0.0f)
-        {
-            _attackTimer += CurrentAttackRate;
-            
-            OnAttack();
-        }
-    }
-
-    protected virtual void OnAttack()
-    {
-        
-    }
     
+
+    public virtual void Attack()
+    {
+    }
+
     protected void OnSpawnReady()
     {
-        
     }
 }

@@ -7,33 +7,25 @@ namespace TDGame.Core;
 
 public class RailGunComponent : SpaceTowerComponent, ICanLog<RailGunComponent>
 {
-    public new TDGameScene Scene { get; set; }
-    public ILogger Logger { get; } = new Logger<SpaceTowerComponent>();
     public Entity Muzzle { get; set; }
+    public ILogger Logger { get; } = new Logger<SpaceTowerComponent>();
+    
 
-    public override void OnCreated()
+    public override void Attack()
     {
-        Scene = Dreambit.Core.Instance.CurrentScene as TDGameScene;
-        
-        if(Scene == null)
-            throw new ArgumentNullException(nameof(Scene));
-    }
-
-    protected override void OnAttack()
-    {
-        Target = TargetingBehavior.SelectTarget(Transform, CurrentRange, ["enemy"]);
+        Target = TargetingBehavior.SelectTarget(Transform, Blackboard.TowerDefinition.BaseRange, ["enemy"]);
 
         if (Target is null) return;
-        
+
         FaceTarget();
-        
+
         var start = Muzzle.Transform.WorldPosition;
         var end = Target.Transform.WorldPosition;
 
         HitScanLine.Create(start, end, Color.White, 0.5f);
-        
-        GameAudioManager.Instance.Play(Definition.WeaponSoundCue);
-        
+
+        GameAudioManager.Instance.Play(Blackboard.TowerDefinition.WeaponSoundCue);
+
         EnemyManager.Instance.DestroyEnemy(Target);
     }
 }
